@@ -71,6 +71,12 @@ src/
 
 `vercel.json`이 `main`의 Vercel 배포를 꺼두었습니다. 운영은 CloudFront 한 곳만 바라보게 하려는 것입니다. Vercel 대시보드에서 Production Branch를 `dev`로 맞춰주세요.
 
+### dev 배포는 색인되지 않습니다
+
+`vercel.json`이 모든 응답에 `X-Robots-Tag: noindex, nofollow`를 붙입니다. Vercel은 Preview 배포에만 `noindex`를 자동으로 붙이는데, 우리는 `dev`를 Production Branch로 지정해서 자동 처리가 안 되기 때문입니다. 그대로 두면 운영 도메인과 같은 내용이 두 주소로 색인되어 중복 콘텐츠가 됩니다.
+
+`public/robots.txt`로 막으면 안 됩니다. 그건 빌드 산출물이라 CloudFront에도 함께 올라가 **운영까지 색인에서 빠집니다.** Vercel만 읽는 `vercel.json`으로 처리해야 하는 이유입니다.
+
 ### 랜딩은 전용 버킷과 배포를 씁니다
 
 실서비스(`src/data/site.ts`의 `links.app`)와 **버킷도 배포도 공유하지 않습니다.** 랜딩 전용을 따로 둡니다.
@@ -116,6 +122,8 @@ Variables
 | --- | --- |
 | `AWS_REGION` | 버킷이 있는 리전 |
 | `SITE_URL` | 운영 도메인. 예: `https://baton.co.kr` |
+
+Vercel 쪽에도 같은 이름의 변수를 Production 환경에 넣어두었습니다. 값은 Vercel이 할당한 `https://baton-landing-rho.vercel.app`입니다. 변수가 없으면 `astro.config.mjs`의 폴백이 같은 주소를 쓰므로 이중 안전장치입니다.
 
 `SITE_URL`은 `astro.config.mjs`의 `site`로 들어가 canonical URL과 OG 이미지 주소를 만듭니다. 값이 없으면 Vercel 주소로 빌드되므로, 워크플로가 빌드 직후 canonical이 운영 도메인인지 확인하고 아니면 실패시킵니다.
 
