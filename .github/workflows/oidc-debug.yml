@@ -1,0 +1,32 @@
+# 임시 진단용. OIDC 토큰이 실제로 담아 보내는 클레임을 확인합니다.
+# AWS에 접속하지 않고 토큰의 공개 클레임만 출력합니다. 확인 후 삭제합니다.
+name: OIDC Debug
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  claims:
+    name: OIDC 클레임 확인
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: 토큰 클레임 출력
+        run: |
+          TOKEN=$(curl -sLS \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r '.value')
+
+          PAYLOAD=$(echo "$TOKEN" | cut -d. -f2)
+          PAD=$(( (4 - ${#PAYLOAD} % 4) % 4 ))
+          [ "$PAD" -gt 0 ] && PAYLOAD="${PAYLOAD}$(printf '=%.0s' $(seq 1 $PAD))"
+
+          echo "===== IAM 신뢰 정책에 넣어야 하는 값 ====="
+          echo "$PAYLOAD" | tr '_-' '/+' | base64 -d \
+            | jq '{sub, aud, repository, ref, environment, job_workflow_ref}'
