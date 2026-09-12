@@ -1,0 +1,110 @@
+---
+import Icon from '@/components/Icon.astro'
+import { links } from '@/data/site'
+---
+
+<section aria-labelledby="h-final" class="final">
+  <div aria-hidden="true" class="final-bg"></div>
+
+  <div class="final-inner reveal">
+    <p class="final-kicker">끊김 없는 업무, AI 기반 인수인계 자동화 서비스</p>
+    <h2 id="h-final">지금 갖고 있는 자료로<br />첫 인수인계서를 만들어 보세요</h2>
+    <p class="final-sub">업로드부터 후임자 Q&A까지, 회원가입 후 바로 사용할 수 있어요.</p>
+
+    <div class="final-actions">
+      <a class="btn-primary btn-lg breathe" href={links.app} rel="noreferrer" target="_blank">
+        무료로 시작하기
+        <Icon name="arrow" />
+      </a>
+      <a class="btn-link" href={links.demo} rel="noreferrer" target="_blank">시연 영상 보기</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final {
+    position: relative;
+    overflow: hidden;
+    padding: 140px max(5vw, 24px);
+    text-align: center;
+  }
+
+  .final-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(60% 80% at 50% 110%, rgb(49 130 246 / 18%), transparent),
+      linear-gradient(180deg, var(--surface), var(--bg));
+  }
+
+  .final-bg::before,
+  .final-bg::after {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    opacity: 0.5;
+    filter: blur(70px);
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+
+  .final-bg::before {
+    bottom: -160px;
+    left: -120px;
+    background: var(--blue-7);
+  }
+
+  .final-bg::after {
+    top: -160px;
+    right: -120px;
+    background: var(--blue-5);
+    animation-delay: -6s;
+  }
+
+  .final-inner {
+    position: relative;
+  }
+
+  .final-kicker {
+    margin: 0 0 16px;
+    color: var(--blue-dark);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .final h2 {
+    margin-bottom: 16px;
+    color: var(--navy);
+    font-size: clamp(30px, 4.6vw, 48px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.045em;
+  }
+
+  .final-sub {
+    margin: 0 0 32px;
+    color: var(--sub);
+    font-size: 16px;
+  }
+
+  .final-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .final-actions .btn-link {
+    height: 58px;
+    border-radius: 16px;
+    padding: 0 22px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 560px) {
+    .final {
+      padding: 96px 20px;
+    }
+  }
+</style>

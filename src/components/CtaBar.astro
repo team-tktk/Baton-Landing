@@ -1,0 +1,136 @@
+---
+import Icon from '@/components/Icon.astro'
+import { links, pilotDeadline } from '@/data/site'
+---
+
+<div
+  aria-label="파일럿 신청"
+  class="cta-bar"
+  data-cta-bar
+  data-deadline={pilotDeadline}
+  role="region"
+>
+  <div class="cta-copy">
+    <strong>BATON 파일럿 기업 모집</strong>
+    <small>파일럿 모집 마감까지 <span class="countdown" data-countdown>--일 --시간 --분 --초</span></small>
+  </div>
+
+  <a class="btn-dark cta-btn" href={links.app} rel="noreferrer" target="_blank">무료로 시작하기</a>
+
+  <button aria-label="링크 복사" class="share" data-share type="button">
+    <Icon name="link" />
+  </button>
+</div>
+
+<style>
+  /* 히어로를 지나면 스크립트가 .show를 붙여 올립니다. */
+  .cta-bar {
+    position: fixed;
+    z-index: 25;
+    bottom: 18px;
+    left: 50%;
+    display: flex;
+    width: min(1000px, calc(100% - 28px));
+    align-items: center;
+    gap: 14px;
+    border: 1px solid rgb(25 31 40 / 7%);
+    border-radius: 18px;
+    background: rgb(255 255 255 / 92%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 12px 12px 12px 22px;
+    opacity: 0;
+    transform: translate(-50%, 140%);
+    box-shadow: 0 18px 50px rgb(23 32 51 / 16%);
+    transition: transform 0.6s var(--ease-out), opacity 0.4s;
+  }
+
+  .cta-bar.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .cta-copy {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .cta-copy strong {
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .cta-copy small {
+    overflow: hidden;
+    color: var(--sub);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .countdown {
+    color: var(--blue-dark);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cta-btn {
+    height: 48px;
+    flex: none;
+    padding: 0 26px;
+  }
+
+  .share {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    flex: none;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--sub);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+
+  .share:hover {
+    border-color: rgb(49 130 246 / 38%);
+    color: var(--blue-dark);
+    transform: rotate(-12deg);
+  }
+
+  .share :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (max-width: 560px) {
+    .cta-bar {
+      bottom: 12px;
+      width: calc(100% - 20px);
+      gap: 8px;
+      padding: 10px 10px 10px 14px;
+    }
+
+    .cta-copy small {
+      display: none;
+    }
+
+    .cta-btn {
+      padding: 0 16px;
+    }
+  }
+</style>
+
+<script>
+  import { initCtaBar } from '@/scripts/ctaBar'
+  import { initShare } from '@/scripts/share'
+
+  initCtaBar()
+  initShare()
+</script>

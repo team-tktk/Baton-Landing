@@ -1,0 +1,131 @@
+---
+import ChatDemo from '@/components/ChatDemo.astro'
+import Icon from '@/components/Icon.astro'
+import Section from '@/components/Section.astro'
+import { features } from '@/data/content'
+---
+
+<Section id="features" index="03. 핵심 기능" kicker="자료 업로드 한 번으로 후임자 Q&A까지">
+  <Fragment slot="title">다시 찾고, 정리하고, 설명하는 일을 <b>없앱니다</b></Fragment>
+
+  <ol class="features">
+    {
+      features.map((feature, index) => (
+        <li class="reveal" style={`--d: ${index}`}>
+          <span class="feature-icon"><Icon name={feature.icon} /></span>
+          <small>{feature.step}</small>
+          <strong>{feature.title}</strong>
+          <p>{feature.description}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <ChatDemo />
+</Section>
+
+<style>
+  .features {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .features li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(25 31 40 / 7%);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 28px 24px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s, border-color 0.3s;
+  }
+
+  .features li:hover {
+    border-color: rgb(49 130 246 / 38%);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgb(49 130 246 / 14%);
+  }
+
+  .feature-icon {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    margin-bottom: 22px;
+    border-radius: 16px;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    transition: transform 0.4s var(--ease-out), background 0.3s, color 0.3s;
+  }
+
+  .feature-icon :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+
+  .features li:hover .feature-icon {
+    background: var(--blue);
+    color: var(--on-dark);
+    transform: rotate(-8deg) scale(1.08);
+  }
+
+  .features small {
+    margin-bottom: 8px;
+    color: var(--blue-dark);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .features strong {
+    margin-bottom: 10px;
+    color: var(--navy);
+    font-size: 20px;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+  }
+
+  .features p {
+    margin: 0;
+    color: var(--sub);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* 카드 사이를 잇는 점선 */
+  .features li::after {
+    content: "";
+    position: absolute;
+    top: 54px;
+    right: -16px;
+    width: 16px;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--blue-8) 0 4px, transparent 4px 8px);
+  }
+
+  .features li:last-child::after {
+    display: none;
+  }
+
+  @media (max-width: 1000px) {
+    .features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .features li::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .features {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

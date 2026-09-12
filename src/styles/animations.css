@@ -1,0 +1,180 @@
+/*
+ * 전역 키프레임.
+ * 컴포넌트의 scoped 스타일에서 이름으로 참조하므로 여기 모아둡니다.
+ * scoped 블록 안에 @keyframes를 두면 Astro가 이름을 해싱해 참조가 깨집니다.
+ */
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-up {
+  to {
+    transform: none;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(60px, 40px) scale(1.15);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.25) rotate(15deg);
+  }
+}
+
+@keyframes card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ping {
+  to {
+    box-shadow: 0 0 0 8px rgb(34 197 94 / 0%);
+  }
+}
+
+@keyframes wheel {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes card-glow {
+  from {
+    box-shadow: 0 20px 44px rgb(49 130 246 / 14%);
+  }
+  to {
+    box-shadow: 0 24px 56px rgb(49 130 246 / 30%);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes blink-soft {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes breathe {
+  to {
+    transform: scale(1.04);
+    box-shadow: 0 22px 48px rgb(49 130 246 / 34%);
+  }
+}
+
+/*
+ * 모션 최소화 설정을 켠 사용자에게는 모든 연출을 끕니다.
+ * scoped 스타일보다 우선해야 하므로 !important가 필요합니다.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-in,
+  .hero-line > span,
+  .reveal,
+  .float-card,
+  .msg,
+  .sources span {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .cta-bar {
+    opacity: 1 !important;
+    transform: translate(-50%, 0) !important;
+  }
+}

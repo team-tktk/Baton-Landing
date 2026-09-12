@@ -1,0 +1,130 @@
+---
+import Section from '@/components/Section.astro'
+import { roadmap } from '@/data/content'
+---
+
+<Section id="roadmap" index="06. 로드맵" kicker="파일럿 5개사 · 유료 고객 3개사를 목표로" tinted>
+  <Fragment slot="title">문제 검증에서 <b>정식 출시</b>까지</Fragment>
+
+  <ol class="roadmap">
+    {
+      roadmap.map((phase, index) => (
+        <li class:list={['reveal', { current: phase.current }]} style={`--d: ${index}; --h: ${index}`}>
+          <span class="period">
+            {phase.period}
+            {phase.current && <em>지금</em>}
+          </span>
+          <strong>{phase.title}</strong>
+          <ul>
+            {phase.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+</Section>
+
+<style>
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: end;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* 뒤로 갈수록 막대가 높아져 성장 흐름을 보여줍니다. */
+  .roadmap > li {
+    display: flex;
+    min-height: calc(220px + var(--h) * 38px);
+    flex-direction: column;
+    border-radius: 22px;
+    background: linear-gradient(180deg, var(--blue-lift), var(--blue-dark));
+    padding: 26px 22px;
+    color: var(--on-dark);
+    transform-origin: bottom center;
+  }
+
+  /* 막대는 아래에서 자라나듯 등장합니다. */
+  .roadmap > li.reveal {
+    opacity: 0;
+    transform: scaleY(0.6) translateY(30px);
+  }
+
+  .roadmap > li.reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .roadmap > li.current {
+    outline: 3px solid rgb(49 130 246 / 30%);
+    outline-offset: 4px;
+  }
+
+  /* 막대가 다 자란 뒤에 내용이 나타납니다. */
+  .roadmap > li > *:not(.period) {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    transition-delay: calc(var(--d) * 90ms + 0.5s);
+  }
+
+  .roadmap > li.in > *:not(.period) {
+    opacity: 1;
+  }
+
+  .period {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: auto;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .period em {
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--blue-dark);
+    padding: 2px 9px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 800;
+    animation: blink-soft 1.6s ease-in-out infinite;
+  }
+
+  .roadmap strong {
+    margin: 22px 0 10px;
+    font-size: 18px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+
+  .roadmap ul {
+    margin: 0;
+    padding-left: 16px;
+  }
+
+  .roadmap ul li {
+    color: rgb(255 255 255 / 84%);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1000px) {
+    .roadmap {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .roadmap > li {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .roadmap {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

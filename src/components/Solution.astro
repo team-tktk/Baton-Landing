@@ -1,0 +1,171 @@
+---
+import Icon from '@/components/Icon.astro'
+import Section from '@/components/Section.astro'
+import { batonSteps, legacySteps } from '@/data/content'
+
+const numbered = (steps: string[], offset: number) =>
+  steps.map((step, index) => ({
+    step,
+    no: String(index + 1).padStart(2, '0'),
+    delay: offset + index + 1,
+  }))
+---
+
+<Section id="solution" index="02. 솔루션" kicker="온보딩 시간을 줄이고, 비용을 줄이는 서비스" tinted>
+  <Fragment slot="title"><b>인수인계를 자동화</b>하는 새로운 방식</Fragment>
+
+  <div class="compare">
+    <div class="compare-card reveal" style="--d: 0">
+      <span class="compare-tag">기존 인수인계 방식</span>
+      <ol>
+        {
+          numbered(legacySteps, 0).map((item) => (
+            <li class="reveal" style={`--d: ${item.delay}`}>
+              <i>{item.no}</i>
+              {item.step}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <span aria-hidden="true" class="compare-arrow reveal" style="--d: 3">
+      <Icon name="arrow" />
+    </span>
+
+    <div class="compare-card baton reveal" style="--d: 4">
+      <span class="compare-tag baton">Baton</span>
+      <ol>
+        {
+          numbered(batonSteps, 4).map((item) => (
+            <li class="reveal" style={`--d: ${item.delay}`}>
+              <i>{item.no}</i>
+              {item.step}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .compare {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .compare-card {
+    position: relative;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 44px 32px 20px;
+  }
+
+  .compare-card.baton {
+    border-color: var(--blue);
+    box-shadow: 0 20px 44px rgb(49 130 246 / 14%);
+  }
+
+  /* 등장한 뒤 은은하게 숨 쉬는 그림자 */
+  .compare-card.baton.in {
+    animation: card-glow 2.4s ease-in-out 0.6s infinite alternate;
+  }
+
+  .compare-tag {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    background: var(--fill);
+    color: var(--sub);
+    padding: 9px 22px;
+    font-size: 14px;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .compare-tag.baton {
+    background: var(--blue);
+    color: var(--on-dark);
+  }
+
+  .compare-card ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .compare-card li {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border-top: 1px solid var(--line);
+    padding: 20px 4px;
+    color: var(--body);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .compare-card li:first-child {
+    border-top: 0;
+  }
+
+  .compare-card li i {
+    color: var(--blue);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 800;
+  }
+
+  /* 목록 항목은 옆에서 밀려 들어옵니다. */
+  .compare-card li.reveal {
+    transform: translateX(-16px);
+  }
+
+  .compare-card li.reveal.in {
+    transform: none;
+  }
+
+  .compare-arrow {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    align-self: center;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--blue);
+    box-shadow: var(--shadow-card);
+  }
+
+  .compare-arrow :global(svg) {
+    width: 24px;
+    height: 24px;
+    animation: nudge 1.4s ease-in-out infinite;
+  }
+
+  @media (max-width: 720px) {
+    .compare {
+      grid-template-columns: 1fr;
+    }
+
+    .compare-arrow {
+      justify-self: center;
+      transform: rotate(90deg);
+    }
+
+    .compare-card {
+      padding: 40px 22px 14px;
+    }
+
+    .compare-card li {
+      padding: 16px 2px;
+      font-size: 16px;
+    }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+import { tickerItems } from '@/data/content'
+
+// 끊김 없이 흐르도록 목록을 두 번 이어 붙입니다.
+// marquee 키프레임이 -50%까지 이동하므로 정확히 두 벌이어야 합니다.
+const loop = [...tickerItems, ...tickerItems]
+---
+
+<div aria-hidden="true" class="ticker">
+  <div class="ticker-track">
+    {loop.map((item) => <><span>{item}</span><i></i></>)}
+  </div>
+  <p class="ticker-caption">이미 갖고 있는 자료면 충분해요. 그대로 올리세요.</p>
+</div>
+
+<style>
+  .ticker {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    padding: 18px 0 14px;
+  }
+
+  /* 양옆을 흐리게 해 잘린 느낌을 없앱니다. */
+  .ticker::before,
+  .ticker::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    pointer-events: none;
+  }
+
+  .ticker::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--surface), transparent);
+  }
+
+  .ticker::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--surface), transparent);
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 26px;
+    animation: marquee 32s linear infinite;
+  }
+
+  .ticker-track span {
+    color: var(--body);
+    font-size: 15px;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .ticker-track i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    opacity: 0.5;
+  }
+
+  .ticker-caption {
+    margin: 10px 0 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+</style>

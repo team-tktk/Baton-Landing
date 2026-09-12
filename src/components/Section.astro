@@ -1,0 +1,26 @@
+---
+/**
+ * 모든 본문 섹션의 공통 껍데기.
+ * 번호 배지, 소제목, 제목을 받고 본문은 기본 슬롯으로 받습니다.
+ * 제목에 <b> 강조가 들어가므로 title 슬롯으로 넘깁니다.
+ */
+interface Props {
+  id: string
+  index: string
+  kicker: string
+  tinted?: boolean
+}
+
+const { id, index, kicker, tinted = false } = Astro.props
+---
+
+<section aria-labelledby={`h-${id}`} class:list={['section', { tinted }]} id={id}>
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="index">{index}</span>
+      <p class="kicker">{kicker}</p>
+      <h2 id={`h-${id}`}><slot name="title" /></h2>
+    </div>
+    <slot />
+  </div>
+</section>

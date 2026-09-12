@@ -1,0 +1,71 @@
+/* 디자인 토큰. Baton-FE의 tokens.css와 같은 팔레트를 씁니다.
+   색은 전부 여기서만 정의합니다. 컴포넌트에 hex를 직접 쓰지 마세요.
+   예외는 ChatDemo의 맥OS 창 버튼 3색뿐입니다. 브랜드 색이 아니라서 그대로 둡니다. */
+:root {
+  /* 브랜드 파랑 */
+  --blue: #3182f6;
+  --blue-dark: #1b64da;
+  --blue-lift: #4d95f8; /* blue보다 한 톤 밝음. 그라디언트 시작점 */
+  --blue-bright: #6ea8ff; /* 광택 스윕, 어두운 배경 위 강조 */
+  --blue-pale: #8fb8ff; /* 어두운 배경 위 보조 텍스트 */
+
+  /* 파랑 틴트 1~8. 숫자가 클수록 진합니다. 옅은 배경과 장식에 씁니다. */
+  --blue-1: #f4f8ff;
+  --blue-2: #edf5ff;
+  --blue-3: #e8f3ff;
+  --blue-4: #e2ecff;
+  --blue-5: #dbe8ff;
+  --blue-6: #d6e6ff;
+  --blue-7: #c7dcff;
+  --blue-8: #bfd9ff;
+
+  /* 기존 이름. 쓰던 곳이 많아 별칭으로 남겨둡니다 */
+  --blue-faint: var(--blue-1);
+  --blue-soft: var(--blue-3);
+
+  /* 어두운 면 */
+  --navy: #172033;
+  --navy-deep: #0f1727; /* navy의 hover */
+  --navy-lift: #1f2f4d; /* navy 그라디언트 끝점 */
+
+  /* 글자. 위에서 아래로 옅어집니다 */
+  --text: #191f28; /* 제목 */
+  --body: #263244; /* 본문 */
+  --sub: #4e5968; /* 보조 */
+  --sub-soft: #5c6775;
+  --muted: #8b95a1; /* 흐림 */
+  --muted-soft: #b8c2cf;
+
+  /* 면과 선 */
+  --line: #e5e8eb;
+  --fill: #eef1f5; /* 칩과 태그 배경 */
+  --bg: #f4f7fb;
+  --bg-soft: #f7f9fc;
+  --surface: #fff;
+  --on-dark: #fff; /* 어둡거나 파란 배경 위의 글자 */
+
+  /* 상태 */
+  --success: #22c55e;
+
+  --radius-lg: 24px;
+  --shadow-card: 0 16px 38px rgb(49 130 246 / 7%);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --content: 1080px;
+  --nav-h: 76px;
+}
+
+/* 브레이크포인트는 네 단입니다. 새 값을 만들지 말고 이 중에서 골라 쓰세요.
+   CSS는 미디어 쿼리에 변수를 못 써서 값을 직접 적습니다.
+
+   1000px  4칸 카드 그리드가 2칸으로      Features, Pricing, Roadmap, ChatDemo
+    900px  좌우 2단 레이아웃이 1단으로   Hero, Footer, Nav(링크 숨김)
+    720px  섹션 여백 축소, 3칸이 1칸으로  utilities(.section), Problem, Solution
+    560px  모바일 미세 조정                2칸이 1칸으로, 타이포그래피와 여백
+
+   값이 제각기 다른 이유는 칸 수가 달라서입니다. 4칸은 1000px, 3칸은 720px에서
+   접어야 카드 한 장의 폭이 비슷하게 남습니다. 임의의 값이 아니니 줄이려 하지 마세요. */
+@media (max-width: 560px) {
+  :root {
+    --nav-h: 64px;
+  }
+}

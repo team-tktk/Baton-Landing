@@ -1,0 +1,215 @@
+/* 여러 컴포넌트가 함께 쓰는 클래스. 컴포넌트 고유 스타일은 각 .astro 파일에 있습니다. */
+
+/* ===== 버튼 ===== */
+.btn-primary,
+.btn-dark,
+.btn-outline,
+.btn-soft,
+.btn-ghost,
+.btn-link {
+  display: inline-flex;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.18s var(--ease-out), background 0.18s, box-shadow 0.18s, color 0.18s,
+    border-color 0.18s;
+}
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--blue);
+  color: var(--on-dark);
+  box-shadow: 0 10px 24px rgb(49 130 246 / 24%);
+}
+
+/* 호버 시 지나가는 광택 */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 28%) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.6s var(--ease-out);
+}
+
+.btn-primary:hover {
+  background: var(--blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgb(49 130 246 / 32%);
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn-primary svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s var(--ease-out);
+}
+
+.btn-primary:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-dark {
+  background: var(--navy);
+  color: var(--on-dark);
+  box-shadow: 0 8px 20px rgb(23 32 51 / 14%);
+}
+
+.btn-dark:hover {
+  background: var(--navy-deep);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  border: 1px solid rgb(25 31 40 / 10%);
+  background: var(--surface);
+  color: var(--body);
+}
+
+.btn-outline:hover {
+  border-color: rgb(49 130 246 / 40%);
+  color: var(--blue-dark);
+  transform: translateY(-2px);
+}
+
+.btn-outline svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  stroke: none;
+}
+
+.btn-soft {
+  background: var(--blue-soft);
+  color: var(--blue-dark);
+}
+
+.btn-soft:hover {
+  background: var(--blue-5);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--sub);
+}
+
+.btn-ghost:hover {
+  background: var(--blue-faint);
+  color: var(--blue-dark);
+}
+
+.btn-link {
+  color: var(--sub);
+}
+
+.btn-link:hover {
+  background: var(--blue-faint);
+  color: var(--blue-dark);
+}
+
+.btn-lg {
+  height: 58px;
+  border-radius: 16px;
+  padding: 0 28px;
+  font-size: 16px;
+}
+
+.breathe {
+  animation: breathe 2.4s ease-in-out infinite alternate;
+}
+
+/* ===== 섹션 껍데기 ===== */
+.section {
+  width: 100%;
+  padding: 120px max(5vw, 24px);
+}
+
+.section.tinted {
+  background: var(--bg);
+}
+
+.section-inner {
+  max-width: var(--content);
+  margin: 0 auto;
+}
+
+.section-head {
+  margin-bottom: 56px;
+  text-align: center;
+}
+
+.section-head .index {
+  display: inline-block;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: var(--blue-dark);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.section-head .kicker {
+  margin: 0 0 10px;
+  color: var(--sub);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.section-head h2 {
+  color: var(--navy);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+}
+
+.section-head h2 b {
+  font-weight: 800;
+}
+
+/* ===== 스크롤 리빌 ===== */
+/* JS가 뷰포트 진입 시 .in을 붙입니다. --d로 순차 지연을 줍니다. */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: calc(var(--d, 0) * 90ms);
+  will-change: opacity, transform;
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 84px max(5vw, 20px);
+  }
+
+  .section-head {
+    margin-bottom: 36px;
+  }
+}
+
+@media (max-width: 560px) {
+  .btn-lg {
+    height: 50px;
+    padding: 0 18px;
+    font-size: 14px;
+  }
+}

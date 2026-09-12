@@ -1,0 +1,344 @@
+---
+import Icon from '@/components/Icon.astro'
+import { chatDemo } from '@/data/content'
+---
+
+<div class="demo reveal" data-chat-demo>
+  <div class="demo-copy">
+    <p class="demo-kicker">후임자 AI Q&A</p>
+    <h3>근거 없는 답은 하지 않아요</h3>
+    <p>
+      인수인계별로 검색 범위를 제한하고, 관련 자료가 없으면 답변할 수 없다고 알려요. 모든 답변에는
+      어떤 문서에서 나온 내용인지 출처가 함께 붙어요.
+    </p>
+    <ul>
+      {chatDemo.guarantees.map((item) => <li><Icon name="check" />{item}</li>)}
+    </ul>
+    <button class="demo-replay" data-chat-replay type="button">
+      <Icon name="repeat" />
+      다시 재생
+    </button>
+  </div>
+
+  <div aria-live="polite" class="chat-window">
+    <div class="chat-head">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <em>{chatDemo.room}</em>
+    </div>
+
+    <div class="chat-body">
+      <div class="msg user" data-chat-question>
+        <span data-chat-typed data-text={chatDemo.question}></span>
+      </div>
+
+      <div class="msg thinking" data-chat-thinking><i></i><i></i><i></i></div>
+
+      <div class="msg ai" data-chat-answer>
+        <span class="ai-label"><Icon name="sparkSolid" />Baton AI</span>
+        <p>
+          매월 <b>말일 오후 3시까지</b> 재무팀 김하늘 매니저에게 메일로 보내요. 회계 마감 전 검토가
+          필요해서 <b>이틀 전에 초안 공유</b>가 관례예요.
+        </p>
+        <div class="sources">
+          {
+            chatDemo.sources.map((source) => (
+              <span data-chat-source>
+                <Icon name="file" />
+                {source}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .demo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: 48px;
+    overflow: hidden;
+    margin-top: 64px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-lift));
+    padding: 52px;
+    color: var(--on-dark);
+  }
+
+  .demo-kicker {
+    margin: 0 0 12px;
+    color: var(--blue-pale);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .demo-copy h3 {
+    margin-bottom: 14px;
+    font-size: clamp(24px, 2.6vw, 30px);
+    font-weight: 750;
+    letter-spacing: -0.035em;
+  }
+
+  .demo-copy > p:not(.demo-kicker) {
+    margin: 0 0 22px;
+    color: rgb(255 255 255 / 72%);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .demo-copy ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .demo-copy li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .demo-copy li :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--blue-bright);
+  }
+
+  .demo-replay {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgb(255 255 255 / 18%);
+    border-radius: 10px;
+    background: rgb(255 255 255 / 6%);
+    color: var(--on-dark);
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: background 0.2s;
+  }
+
+  .demo-replay:hover {
+    background: rgb(255 255 255 / 14%);
+  }
+
+  .demo-replay :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .chat-window {
+    overflow: hidden;
+    border-radius: 18px;
+    background: var(--bg);
+    box-shadow: 0 24px 60px rgb(0 0 0 / 30%);
+  }
+
+  .chat-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    padding: 12px 14px;
+  }
+
+  .chat-head .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+
+  /* 맥OS 창 버튼 3색. 브랜드 색이 아니라 토큰으로 빼지 않습니다 */
+  .chat-head .dot:nth-child(1) {
+    background: #ff5f57;
+  }
+
+  .chat-head .dot:nth-child(2) {
+    background: #febc2e;
+  }
+
+  .chat-head .dot:nth-child(3) {
+    background: #28c840;
+  }
+
+  .chat-head em {
+    margin-left: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .chat-body {
+    display: flex;
+    min-height: 250px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  /* 스크립트가 .show를 순서대로 붙여 대화를 재생합니다. */
+  .msg {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+    transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+  }
+
+  .msg.show {
+    opacity: 1;
+    transform: none;
+  }
+
+  .msg.user {
+    align-self: flex-end;
+    max-width: 80%;
+    min-height: 44px;
+    border-radius: 18px 18px 4px;
+    background: var(--blue);
+    padding: 12px 16px;
+    color: var(--on-dark);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  /* 타이핑 중에만 커서를 보여줍니다. */
+  .msg.user span::after {
+    content: "|";
+    margin-left: 1px;
+    animation: caret 1s steps(1) infinite;
+  }
+
+  .msg.user.done span::after {
+    display: none;
+  }
+
+  .msg.thinking {
+    display: flex;
+    align-self: flex-start;
+    gap: 5px;
+    border-radius: 18px 18px 18px 4px;
+    background: var(--surface);
+    padding: 14px 16px;
+  }
+
+  .msg.thinking.hide {
+    display: none;
+  }
+
+  .msg.thinking i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--muted-soft);
+    animation: bounce 1.1s ease-in-out infinite;
+  }
+
+  .msg.thinking i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .msg.thinking i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .msg.ai {
+    align-self: flex-start;
+    max-width: 92%;
+    border-radius: 18px 18px 18px 4px;
+    background: var(--surface);
+    padding: 14px 16px;
+    color: var(--text);
+  }
+
+  .ai-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    color: var(--blue-dark);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .ai-label :global(svg) {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .msg.ai p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .msg.ai b {
+    color: var(--blue-dark);
+    font-weight: 750;
+  }
+
+  .sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .sources span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 8px;
+    background: var(--blue-faint);
+    color: var(--blue-dark);
+    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+  }
+
+  .sources span.show {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sources :global(svg) {
+    width: 13px;
+    height: 13px;
+  }
+
+  @media (max-width: 1000px) {
+    .demo {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 36px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .demo {
+      padding: 28px 22px;
+    }
+  }
+</style>
+
+<script>
+  import { initChatDemo } from '@/scripts/chatDemo'
+
+  initChatDemo()
+</script>

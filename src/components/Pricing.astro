@@ -1,0 +1,160 @@
+---
+import Section from '@/components/Section.astro'
+import { plans } from '@/data/content'
+import { links } from '@/data/site'
+---
+
+<Section id="pricing" index="05. 요금제" kicker="팀 규모에 맞게 시작하세요">
+  <Fragment slot="title">월 구독형 <b>B2B SaaS</b></Fragment>
+
+  <ul class="plans">
+    {
+      plans.map((plan, index) => (
+        <li class:list={['plan', 'reveal', { featured: plan.featured }]} style={`--d: ${index}`}>
+          {plan.badge && <span class="plan-badge">{plan.badge}</span>}
+          <strong>{plan.name}</strong>
+          <p class="plan-price">
+            <b>{plan.price}</b>
+            {plan.unit && <span>{plan.unit}</span>}
+          </p>
+          <ul>
+            {plan.items.map((item) => <li>{item}</li>)}
+          </ul>
+          <small>{plan.extra}</small>
+          <a
+            class={plan.cta === '도입 문의' ? 'btn-soft' : 'btn-primary'}
+            href={plan.cta === '도입 문의' ? links.github : links.app}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {plan.cta}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(25 31 40 / 8%);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 30px 24px 24px;
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+  }
+
+  .plan:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 48px rgb(23 32 51 / 10%);
+  }
+
+  .plan.featured {
+    border-color: var(--blue);
+    box-shadow: 0 20px 44px rgb(49 130 246 / 14%);
+  }
+
+  .plan.featured.in {
+    animation: card-glow 2.4s ease-in-out 0.8s infinite alternate;
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: -13px;
+    left: 24px;
+    border-radius: 999px;
+    background: var(--blue);
+    color: var(--on-dark);
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .plan > strong {
+    margin-bottom: 12px;
+    color: var(--navy);
+    font-size: 18px;
+    font-weight: 750;
+  }
+
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin: 0 0 22px;
+  }
+
+  .plan-price b {
+    color: var(--navy);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .plan-price span {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .plan > ul {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .plan > ul li {
+    position: relative;
+    padding-left: 24px;
+    color: var(--body);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* 체크 아이콘은 배경 이미지로 넣어 마크업을 가볍게 유지합니다. */
+  .plan > ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--blue-soft)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231b64da' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 4 4L19 6'/%3E%3C/svg%3E")
+      center / 9px no-repeat;
+  }
+
+  .plan > small {
+    margin-bottom: 18px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 1000px) {
+    .plans {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .plans {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

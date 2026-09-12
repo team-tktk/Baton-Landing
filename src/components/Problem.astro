@@ -1,0 +1,166 @@
+---
+import Section from '@/components/Section.astro'
+import { quotes, stats } from '@/data/content'
+---
+
+<Section id="problem" index="01. 문제 인식" kicker="온보딩에서 가장 중요한, 인수인계">
+  <Fragment slot="title">사람은 계속 바뀌는데, <b>인수인계는 매번 처음부터</b> 다시 합니다</Fragment>
+
+  <ul class="stats">
+    {
+      stats.map((stat, index) => (
+        <li class="reveal" style={`--d: ${index}`}>
+          <strong>
+            {stat.prefix}
+            <span data-count={stat.count} data-decimals={stat.decimals ?? 0}>0</span>
+            {stat.suffix}
+          </strong>
+          <span>{stat.label}</span>
+          <small>{stat.source}</small>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="quotes">
+    <p class="quotes-title reveal">현직자 5명 중 3명은 이렇게 답했습니다</p>
+    <ul>
+      {
+        quotes.map((quote, index) => (
+          <li class="bubble reveal" style={`--d: ${index}`}>
+            <span class="avatar">{quote.initial}</span>
+            <span>“{quote.text}”</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stats > li {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid rgb(25 31 40 / 7%);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 30px 28px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+  }
+
+  .stats > li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 48px rgb(49 130 246 / 14%);
+  }
+
+  .stats strong {
+    color: var(--blue);
+    font-size: clamp(32px, 3.6vw, 44px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stats > li > span {
+    color: var(--body);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .stats small {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .quotes {
+    margin-top: 56px;
+  }
+
+  .quotes-title {
+    margin: 0 0 20px;
+    text-align: center;
+    color: var(--navy);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .quotes ul {
+    display: flex;
+    max-width: 760px;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bubble {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid rgb(25 31 40 / 7%);
+    border-radius: 18px 18px 18px 4px;
+    background: var(--bg-soft);
+    padding: 16px 20px;
+    color: var(--body);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    transform-origin: left bottom;
+  }
+
+  /* 말풍선은 살짝 커지며 등장합니다. */
+  .bubble.reveal {
+    transform: translateY(14px) scale(0.96);
+  }
+
+  .bubble.reveal.in {
+    transform: none;
+  }
+
+  .avatar {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    flex: none;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  @media (max-width: 720px) {
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .bubble {
+      padding: 14px 16px;
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+  import { initCounters } from '@/scripts/counters'
+
+  initCounters()
+</script>

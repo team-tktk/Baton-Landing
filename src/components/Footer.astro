@@ -1,0 +1,102 @@
+---
+import { links, site } from '@/data/site'
+
+const year = new Date().getFullYear()
+---
+
+<footer class="footer">
+  <div class="footer-brand">
+    <img alt="" src={site.logo} />
+    <span>
+      <strong>Baton</strong>
+      <small>{site.team} · {site.event}</small>
+    </span>
+  </div>
+
+  <nav aria-label="외부 링크" class="footer-links">
+    <a href={links.github} rel="noreferrer" target="_blank">GitHub</a>
+    <a href={links.demo} rel="noreferrer" target="_blank">시연 영상</a>
+    <a href={links.app} rel="noreferrer" target="_blank">서비스 바로가기</a>
+  </nav>
+
+  <p>© {year} {site.team}. All rights reserved.</p>
+</footer>
+
+<style>
+  .footer {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    /* 하단 고정 CTA 바에 가리지 않도록 여백을 넉넉히 둡니다. */
+    padding: 36px max(6vw, 32px) 130px;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-brand img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+  }
+
+  .footer-brand strong,
+  .footer-brand small {
+    display: block;
+  }
+
+  .footer-brand strong {
+    color: var(--navy);
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .footer-brand small {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 4px;
+  }
+
+  .footer-links a {
+    border-radius: 8px;
+    color: var(--sub);
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    background: var(--blue-faint);
+    color: var(--blue-dark);
+  }
+
+  .footer p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .footer {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .footer {
+      padding-bottom: 110px;
+    }
+  }
+</style>
