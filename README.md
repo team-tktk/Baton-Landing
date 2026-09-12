@@ -15,6 +15,10 @@ npm install
 | `npm run preview` | 빌드 결과를 그대로 확인합니다 |
 | `npm run check` | 타입과 템플릿을 검사합니다 |
 
+## 기여
+
+`dev`에서 브랜치를 따서 `dev`로 PR을 올립니다. 브랜치 이름, 커밋 형식, 작업 흐름은 [CONTRIBUTING.md](CONTRIBUTING.md)에 있습니다.
+
 ## 구조
 
 ```

@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, dev]
+  push:
+    branches: [main, dev]
+
+# 같은 브랜치에 연달아 푸시하면 이전 실행을 취소합니다.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: 타입 검사와 빌드
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: 타입과 템플릿 검사
+        run: npm run check
+
+      - name: 빌드
+        run: npm run build
+
+  pr-title:
+    name: PR 제목 규칙
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      # Squash merge를 쓰므로 PR 제목이 그대로 커밋이 됩니다.
+      # 제목은 셸에 직접 넣지 않고 환경 변수로 넘깁니다.
+      - name: Conventional Commits 형식 확인
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          PATTERN='^(feat|fix|docs|style|refactor|perf|test|chore|ci)(\([a-z0-9./_-]+\))?!?: .+'
+          if printf '%s' "$TITLE" | grep -qE "$PATTERN"; then
+            echo "통과: $TITLE"
+            exit 0
+          fi
+          echo "PR 제목이 Conventional Commits 형식이 아닙니다."
+          echo "현재 제목: $TITLE"
+          echo
+          echo "형식: <타입>(<범위>): <요약>"
+          echo "타입: feat fix docs style refactor perf test chore ci"
+          echo "예시: feat(nav): 900px 이하 모바일 메뉴 추가"
+          exit 1

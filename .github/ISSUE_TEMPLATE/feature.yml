@@ -1,0 +1,25 @@
+name: 기능 제안
+description: 새 기능이나 개선
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 어떤 문제를 푸나요
+      description: 지금 무엇이 불편한지부터 적어주세요.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 제안하는 방법
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: 건드릴 범위
+      description: 예상되는 파일이나 컴포넌트가 있으면 적어주세요.
