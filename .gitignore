@@ -13,6 +13,9 @@ node_modules/
 .vercel/
 .netlify/
 
+# 로컬 도구 설정
+.claude/
+
 # 에디터 · OS
 .DS_Store
 Thumbs.db
