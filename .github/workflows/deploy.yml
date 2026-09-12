@@ -1,0 +1,100 @@
+name: Deploy
+
+# main에 올라가면 운영(S3 + CloudFront)으로 배포합니다.
+# dev는 Vercel이 직접 붙어 있어서 여기서 다루지 않습니다.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 배포가 겹치면 나중 것만 남깁니다. 진행 중인 배포는 끊지 않습니다.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write # OIDC로 AWS 역할을 맡는 데 필요합니다
+
+jobs:
+  deploy:
+    name: 운영 배포
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: 타입과 템플릿 검사
+        run: npm run check
+
+      - name: 빌드
+        env:
+          # canonical URL과 OG 이미지가 운영 도메인을 가리키게 합니다.
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: npm run build
+
+      - name: 운영 도메인이 들어갔는지 확인
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          if ! grep -q "rel=\"canonical\" href=\"${SITE_URL}" dist/index.html; then
+            echo "canonical이 운영 도메인이 아닙니다. SITE_URL 변수를 확인하세요."
+            grep -o 'rel="canonical" href="[^"]*"' dist/index.html
+            exit 1
+          fi
+
+      - name: AWS 자격 증명
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      # 세 번에 나눠 올립니다. 파일 종류마다 캐시 수명이 달라야 하는데,
+      # aws s3 sync는 바뀌지 않은 파일을 건너뛰어 메타데이터를 안 고치기 때문에
+      # 겹치지 않는 집합으로 쪼개야 각 패스가 자기 Cache-Control을 지킵니다.
+      - name: 해시 번들 업로드 (1년 캐시)
+        env:
+          BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        run: |
+          aws s3 sync dist/_astro/ "s3://${BUCKET}/_astro/" --delete \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: HTML 업로드 (캐시 안 함)
+        env:
+          BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        run: |
+          aws s3 sync dist/ "s3://${BUCKET}/" --delete \
+            --exclude "*" --include "*.html" \
+            --cache-control "no-cache"
+
+      - name: 나머지 정적 파일 업로드 (하루 캐시)
+        env:
+          BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        run: |
+          aws s3 sync dist/ "s3://${BUCKET}/" --delete \
+            --exclude "_astro/*" --exclude "*.html" \
+            --cache-control "public, max-age=86400"
+
+      - name: CloudFront 캐시 무효화
+        env:
+          DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          ID=$(aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION_ID" \
+            --paths "/*" \
+            --query 'Invalidation.Id' --output text)
+          echo "무효화 ID: $ID"
+          aws cloudfront wait invalidation-completed \
+            --distribution-id "$DISTRIBUTION_ID" --id "$ID"
+          echo "완료"
