@@ -3,8 +3,9 @@ name: CI
 on:
   pull_request:
     branches: [main, dev]
+  # main으로 가는 푸시는 Deploy 워크플로가 같은 검사를 하므로 제외합니다.
   push:
-    branches: [main, dev]
+    branches: [dev]
 
 # 같은 브랜치에 연달아 푸시하면 이전 실행을 취소합니다.
 concurrency:
