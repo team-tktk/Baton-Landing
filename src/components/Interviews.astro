@@ -1,0 +1,162 @@
+---
+import { quotes } from '@/data/content'
+---
+
+<section aria-labelledby="h-interviews" class="interviews" id="interviews">
+  <div class="interviews-inner">
+    <header class="interviews-head reveal">
+      <span>WORK VOICES</span>
+      <div>
+        <p>현직자 인수인계 페인포인트</p>
+        <h2 id="h-interviews">업무가 멈추는 순간은<br /><b>현장의 말에서 더 선명합니다</b></h2>
+      </div>
+    </header>
+
+    <div aria-label="직장인 인수인계 페인포인트" aria-roledescription="carousel" class="voice-carousel reveal" data-voice-carousel>
+      <div class="voice-slides" aria-live="polite">
+        {
+          quotes.map((quote, index) => (
+            <article aria-hidden={index === 0 ? 'false' : 'true'} aria-label={`${index + 1} / ${quotes.length}`} aria-roledescription="slide" class:list={['voice-slide', { active: index === 0 }]} data-voice-slide>
+              <img alt={quote.imageAlt} decoding="async" loading={index === 0 ? 'eager' : 'lazy'} src={quote.image} />
+              <div class="voice-shade"></div>
+              <div class="voice-copy">
+                <p class="voice-kicker">USER VOICE {String(index + 1).padStart(2, '0')}</p>
+                <h3>“{quote.title}”</h3>
+                <p class="voice-detail">{quote.text}</p>
+                <div class="voice-meta">
+                  <p><b>{quote.role}</b><span>{quote.context}</span></p>
+                  <em>{quote.impact}</em>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <button aria-label="이전 의견" class="voice-arrow prev" data-voice-prev type="button">←</button>
+      <button aria-label="다음 의견" class="voice-arrow next" data-voice-next type="button">→</button>
+      <div class="voice-footer">
+        <small>현직자 페인포인트 요약 · 실무자 5명 · 익명화해 재구성 · 2026.08</small>
+        <div aria-label="의견 선택" class="voice-dots">
+          {quotes.map((quote, index) => (
+            <button aria-label={`${index + 1}번: ${quote.role}`} aria-pressed={index === 0 ? 'true' : 'false'} class:list={{ active: index === 0 }} data-voice-dot={index} type="button"><span></span></button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .interviews { padding: 72px max(5vw, 24px) 132px; }
+  .interviews-inner { width: min(100%, var(--content)); margin: 0 auto; }
+  .interviews-head { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 34px; align-items: start; margin-bottom: 42px; }
+  .interviews-head > span { border-top: 1px solid var(--blue); color: var(--blue); padding-top: 13px; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; }
+  .interviews-head p { margin: 0 0 10px; color: var(--sub); font-size: 16px; }
+  .interviews-head h2 { margin: 0; color: var(--text); font-size: clamp(34px, 4.2vw, 56px); line-height: 1.2; letter-spacing: -0.045em; }
+
+  .voice-carousel { position: relative; overflow: hidden; border-radius: 32px; background: var(--navy); box-shadow: 0 28px 70px rgb(23 32 51 / 22%); }
+  .voice-slides { position: relative; min-height: clamp(560px, 54vw, 680px); }
+  .voice-slide { position: absolute; inset: 0; opacity: 0; transform: scale(1.025); visibility: hidden; transition: opacity 0.7s ease, transform 1.1s var(--ease-out), visibility 0.7s; }
+  .voice-slide.active { z-index: 1; opacity: 1; transform: scale(1); visibility: visible; }
+  .voice-slide img { width: 100%; height: 100%; object-fit: cover; }
+  .voice-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(12 19 32 / 98%) 0%, rgb(12 19 32 / 90%) 38%, rgb(12 19 32 / 42%) 67%, rgb(12 19 32 / 8%) 100%), linear-gradient(0deg, rgb(12 19 32 / 38%), transparent 58%); }
+
+  .voice-copy { position: absolute; z-index: 2; top: 50%; left: clamp(54px, 8vw, 104px); width: min(58%, 650px); color: white; transform: translateY(-50%); }
+  .voice-kicker { margin: 0 0 24px; color: var(--blue-pale); font-size: 12px; font-weight: 800; letter-spacing: 0.15em; }
+  .voice-copy h3 { margin: 0 0 20px; font-size: clamp(35px, 5vw, 64px); font-weight: 720; line-height: 1.15; letter-spacing: -0.052em; }
+  .voice-detail { max-width: 560px; margin: 0 0 24px; color: rgb(255 255 255 / 72%); font-size: 17px; line-height: 1.65; }
+  .voice-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .voice-meta p { display: flex; gap: 11px; margin: 0; color: rgb(255 255 255 / 58%); font-size: 13px; }
+  .voice-meta p span { border-left: 1px solid rgb(255 255 255 / 22%); padding-left: 11px; }
+  .voice-meta em { border: 1px solid rgb(110 168 255 / 32%); border-radius: 999px; background: rgb(49 130 246 / 15%); color: var(--blue-pale); padding: 7px 11px; font-size: 11px; font-style: normal; }
+
+  .voice-arrow { position: absolute; z-index: 4; top: 50%; display: grid; width: 54px; height: 54px; place-items: center; border: 1px solid rgb(255 255 255 / 18%); border-radius: 50%; background: rgb(10 16 28 / 48%); color: white; font-size: 24px; cursor: pointer; backdrop-filter: blur(10px); transform: translateY(-50%); transition: background 0.25s, transform 0.25s; }
+  .voice-arrow:hover { background: rgb(49 130 246 / 84%); transform: translateY(-50%) scale(1.08); }
+  .voice-arrow.prev { left: 18px; }
+  .voice-arrow.next { right: 18px; }
+  .voice-footer { position: absolute; z-index: 4; right: clamp(30px, 5vw, 64px); bottom: 28px; left: clamp(54px, 8vw, 104px); display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+  .voice-footer small { color: rgb(255 255 255 / 48%); font-size: 12px; }
+  .voice-dots { display: flex; gap: 8px; }
+  .voice-dots button { width: 36px; height: 18px; border: 0; background: none; padding: 7px 0; cursor: pointer; }
+  .voice-dots span { display: block; width: 100%; height: 3px; border-radius: 99px; background: rgb(255 255 255 / 28%); }
+  .voice-dots button.active span { background: var(--blue-bright); animation: voice-progress 6.5s linear; }
+  @keyframes voice-progress { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+
+  @media (max-width: 720px) {
+    .interviews { padding-top: 32px; }
+    .interviews-head { grid-template-columns: 1fr; gap: 18px; }
+    .interviews-head > span { width: 120px; }
+    .voice-slides { min-height: 650px; }
+    .voice-copy { top: auto; right: 28px; bottom: 88px; left: 28px; width: auto; transform: none; }
+    .voice-shade { background: linear-gradient(0deg, rgb(12 19 32 / 98%) 0%, rgb(12 19 32 / 88%) 56%, rgb(12 19 32 / 12%) 100%); }
+    .voice-slide img { object-position: 66% center; }
+    .voice-footer { right: 28px; bottom: 24px; left: 28px; }
+    .voice-footer small { display: none; }
+    .voice-dots { margin-left: auto; }
+  }
+
+  @media (max-width: 560px) {
+    .voice-carousel { margin-inline: -10px; border-radius: 24px; }
+    .voice-copy { right: 22px; left: 22px; }
+    .voice-copy h3 { font-size: 36px; }
+    .voice-detail { font-size: 15px; }
+    .voice-arrow { top: 34%; width: 44px; height: 44px; }
+    .voice-arrow.prev { left: 12px; }
+    .voice-arrow.next { right: 12px; }
+    .voice-footer { right: 22px; left: 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .voice-slide { transition: none; }
+    .voice-dots button.active span { animation: none; }
+  }
+</style>
+
+<script>
+  const initVoiceCarousel = () => {
+    document.querySelectorAll<HTMLElement>('[data-voice-carousel]').forEach((root) => {
+      if (root.dataset.ready === 'true') return
+      root.dataset.ready = 'true'
+      const slides = [...root.querySelectorAll<HTMLElement>('[data-voice-slide]')]
+      const dots = [...root.querySelectorAll<HTMLButtonElement>('[data-voice-dot]')]
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      let active = 0
+      let timer = 0
+
+      const show = (next: number) => {
+        active = (next + slides.length) % slides.length
+        slides.forEach((slide, index) => {
+          const selected = index === active
+          slide.classList.toggle('active', selected)
+          slide.setAttribute('aria-hidden', String(!selected))
+        })
+        dots.forEach((dot, index) => {
+          const selected = index === active
+          dot.classList.toggle('active', selected)
+          dot.setAttribute('aria-pressed', String(selected))
+        })
+      }
+
+      const stop = () => window.clearInterval(timer)
+      const start = () => {
+        stop()
+        if (!reducedMotion && !document.hidden) timer = window.setInterval(() => show(active + 1), 6500)
+      }
+      const select = (next: number) => { show(next); start() }
+
+      root.querySelector<HTMLButtonElement>('[data-voice-prev]')?.addEventListener('click', () => select(active - 1))
+      root.querySelector<HTMLButtonElement>('[data-voice-next]')?.addEventListener('click', () => select(active + 1))
+      dots.forEach((dot, index) => dot.addEventListener('click', () => select(index)))
+      root.addEventListener('mouseenter', stop)
+      root.addEventListener('mouseleave', start)
+      root.addEventListener('focusin', stop)
+      root.addEventListener('focusout', start)
+      document.addEventListener('visibilitychange', start)
+      start()
+    })
+  }
+
+  initVoiceCarousel()
+  document.addEventListener('astro:page-load', initVoiceCarousel)
+</script>

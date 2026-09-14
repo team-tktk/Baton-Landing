@@ -46,6 +46,8 @@
 
   /* 상태 */
   --success: #22c55e;
+  --success-dark: #15803d;
+  --success-soft: #ecfdf3;
 
   --radius-lg: 24px;
   --shadow-card: 0 16px 38px rgb(49 130 246 / 7%);
