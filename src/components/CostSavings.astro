@@ -1,0 +1,432 @@
+---
+import Section from '@/components/Section.astro'
+---
+
+<Section id="savings" index="COST SAVING" kicker="우리 팀의 반복 업무를 기준으로 계산해 보세요" tinted>
+  <Fragment slot="title">인수인계 비용은<br /><b>얼마나 줄어들까요?</b></Fragment>
+
+  <div class="calculator" data-savings-calculator>
+    <div class="calculator-form reveal" style="--d: 0">
+      <div class="form-heading">
+        <span class="form-kicker">TEAM INPUT</span>
+        <h3>우리 팀의 기본값</h3>
+        <p>값을 바꾸면 예상 절감 효과가 바로 계산됩니다.</p>
+      </div>
+
+      <label class="slider-row">
+        <span class="slider-head"><span>월 인수인계 건수</span><strong><b data-value="handovers">4</b><em>건</em></strong></span>
+        <input class="range" data-calc="handovers" type="range" min="1" max="30" step="1" value="4" aria-label="월 인수인계 건수" />
+        <span class="range-scale" aria-hidden="true"><small>1건</small><small>30건</small></span>
+      </label>
+
+      <label class="slider-row">
+        <span class="slider-head"><span>건당 반복 업무 시간</span><strong><b data-value="hours">8</b><em>시간</em></strong></span>
+        <input class="range" data-calc="hours" type="range" min="1" max="40" step="1" value="8" aria-label="건당 반복 업무 시간" />
+        <span class="range-scale" aria-hidden="true"><small>1시간</small><small>40시간</small></span>
+      </label>
+
+      <label class="slider-row">
+        <span class="slider-head"><span>시간당 인건비</span><strong><b data-value="rate">35,000</b><em>원</em></strong></span>
+        <input class="range" data-calc="rate" type="range" min="10000" max="100000" step="1000" value="35000" aria-label="시간당 인건비" />
+        <span class="range-scale" aria-hidden="true"><small>1만원</small><small>10만원</small></span>
+      </label>
+
+      <div class="form-note">
+        <span aria-hidden="true">i</span>
+        <p>BATON이 반복 업무의 <b>40%</b>를 줄인다는 가정으로 계산합니다.</p>
+      </div>
+    </div>
+
+    <div class="calculator-result reveal" style="--d: 1" aria-live="polite">
+      <div class="result-heading">
+        <span class="result-kicker">BATON SCENARIO</span>
+        <h3>도입 후 예상 변화</h3>
+        <p>사람을 줄이는 계산이 아니라, 반복되는 시간을 줄이는 계산입니다.</p>
+      </div>
+
+      <div class="result-metrics">
+        <div class="metric">
+          <span>줄어드는 시간</span>
+          <strong><b data-result="hours-saved">13</b><em>시간 / 월</em></strong>
+        </div>
+        <div class="metric emphasis">
+          <span>예상 절감액</span>
+          <strong><b data-result="cost-saved">182,000</b><em>원 / 월</em></strong>
+        </div>
+      </div>
+
+      <div class="hours-compare" aria-label="도입 전후 반복 업무 시간 비교">
+        <div class="bar-label"><span>도입 전</span><b data-result="before-hours">32시간</b></div>
+        <div class="bar"><i class="bar-before" data-result="before-bar"></i></div>
+        <div class="bar-label"><span>BATON 적용</span><b data-result="after-hours">19시간</b></div>
+        <div class="bar"><i class="bar-after" data-result="after-bar"></i></div>
+      </div>
+
+      <p class="result-note">가정 기반 예상치이며, 실제 효과는 팀 규모와 업무 방식에 따라 달라집니다.</p>
+    </div>
+  </div>
+</Section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-savings-calculator]')
+
+  if (root) {
+    const inputs = {
+      handovers: root.querySelector<HTMLInputElement>('[data-calc="handovers"]'),
+      hours: root.querySelector<HTMLInputElement>('[data-calc="hours"]'),
+      rate: root.querySelector<HTMLInputElement>('[data-calc="rate"]'),
+    }
+
+    const results = {
+      hoursSaved: root.querySelector<HTMLElement>('[data-result="hours-saved"]'),
+      costSaved: root.querySelector<HTMLElement>('[data-result="cost-saved"]'),
+      beforeHours: root.querySelector<HTMLElement>('[data-result="before-hours"]'),
+      afterHours: root.querySelector<HTMLElement>('[data-result="after-hours"]'),
+      beforeBar: root.querySelector<HTMLElement>('[data-result="before-bar"]'),
+      afterBar: root.querySelector<HTMLElement>('[data-result="after-bar"]'),
+    }
+
+    const valueEls = {
+      handovers: root.querySelector<HTMLElement>('[data-value="handovers"]'),
+      hours: root.querySelector<HTMLElement>('[data-value="hours"]'),
+      rate: root.querySelector<HTMLElement>('[data-value="rate"]'),
+    }
+
+    const formatNumber = (value: number) => new Intl.NumberFormat('ko-KR').format(value)
+
+    const updateRange = (input: HTMLInputElement | null) => {
+      if (!input) return
+      const min = Number(input.min) || 0
+      const max = Number(input.max) || 100
+      const value = Number(input.value) || min
+      const progress = ((value - min) / Math.max(1, max - min)) * 100
+      input.style.setProperty('--progress', `${progress}%`)
+    }
+
+    const calculate = () => {
+      const handovers = Math.max(1, Number(inputs.handovers?.value) || 0)
+      const hours = Math.max(1, Number(inputs.hours?.value) || 0)
+      const rate = Math.max(0, Number(inputs.rate?.value) || 0)
+      const before = handovers * hours
+      const saved = Math.round(before * 0.4)
+      const after = before - saved
+      const cost = saved * rate
+
+      if (valueEls.handovers) valueEls.handovers.textContent = formatNumber(handovers)
+      if (valueEls.hours) valueEls.hours.textContent = formatNumber(hours)
+      if (valueEls.rate) valueEls.rate.textContent = formatNumber(rate)
+      Object.values(inputs).forEach(updateRange)
+
+      if (results.hoursSaved) results.hoursSaved.textContent = formatNumber(saved)
+      if (results.costSaved) results.costSaved.textContent = formatNumber(cost)
+      if (results.beforeHours) results.beforeHours.textContent = `${formatNumber(before)}시간`
+      if (results.afterHours) results.afterHours.textContent = `${formatNumber(after)}시간`
+      if (results.beforeBar) results.beforeBar.style.width = '100%'
+      if (results.afterBar) results.afterBar.style.width = `${Math.max(12, (after / before) * 100)}%`
+    }
+
+    Object.values(inputs).forEach((input) => input?.addEventListener('input', calculate))
+    calculate()
+  }
+</script>
+
+<style>
+  .calculator {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: var(--surface);
+    box-shadow: 0 24px 60px rgb(23 32 51 / 10%);
+  }
+
+  .calculator-form,
+  .calculator-result {
+    padding: 40px;
+  }
+
+  .calculator-form {
+    border-right: 1px solid var(--line);
+  }
+
+  .form-heading,
+  .result-heading {
+    margin-bottom: 30px;
+  }
+
+  .form-kicker,
+  .result-kicker {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+  }
+
+  .form-heading h3,
+  .result-heading h3 {
+    margin: 0 0 8px;
+    color: var(--navy);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  .form-heading p,
+  .result-heading p {
+    margin: 0;
+    color: var(--sub);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .slider-row {
+    padding: 12px 0 20px;
+    color: var(--body);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .slider-head {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .slider-head > span {
+    color: var(--body);
+    font-weight: 750;
+  }
+
+  .slider-head strong {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    color: var(--navy);
+  }
+
+  .slider-head strong b {
+    min-width: 74px;
+    color: var(--blue-dark);
+    font-size: 19px;
+    font-weight: 850;
+    letter-spacing: -0.04em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .slider-head em {
+    color: var(--muted);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .range {
+    display: block;
+    width: 100%;
+    height: 20px;
+    margin: 14px 0 2px;
+    border: 0;
+    padding: 0;
+    appearance: none;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  .range:focus { outline: none; }
+
+  .range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--blue) 0 var(--progress, 35%), var(--blue-5) var(--progress, 35%) 100%);
+  }
+
+  .range::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    margin-top: -7px;
+    appearance: none;
+    border: 3px solid var(--surface);
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 2px 7px rgb(49 130 246 / 30%);
+  }
+
+  .range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px var(--blue-soft), 0 2px 7px rgb(49 130 246 / 30%);
+  }
+
+  .range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--blue-5);
+  }
+
+  .range::-moz-range-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--blue);
+  }
+
+  .range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: 3px solid var(--surface);
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 2px 7px rgb(49 130 246 / 30%);
+  }
+
+  .range-scale {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .form-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .form-note span {
+    display: grid;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    font-size: 11px;
+    font-weight: 850;
+  }
+
+  .form-note p { margin: 0; }
+  .form-note b { color: var(--body); }
+
+  .calculator-result {
+    background: var(--navy);
+  }
+
+  .calculator-result .result-heading h3 { color: #fff; }
+  .calculator-result .result-heading p { color: #bbc7dc; }
+  .calculator-result .result-kicker { color: var(--blue-bright); }
+
+  .result-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .metric {
+    border: 1px solid rgb(255 255 255 / 13%);
+    border-radius: 16px;
+    background: rgb(255 255 255 / 6%);
+    padding: 18px;
+  }
+
+  .metric.emphasis {
+    border-color: rgb(110 168 255 / 50%);
+    background: rgb(49 130 246 / 18%);
+  }
+
+  .metric span {
+    display: block;
+    margin-bottom: 10px;
+    color: #afbdd3;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .metric strong {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .metric strong b {
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.055em;
+  }
+
+  .metric strong em {
+    color: #c8d6ee;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 650;
+  }
+
+  .hours-compare {
+    display: grid;
+    gap: 8px;
+  }
+
+  .bar-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #aebbd0;
+    font-size: 12px;
+  }
+
+  .bar-label b {
+    color: #fff;
+    font-weight: 750;
+  }
+
+  .bar {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 11%);
+  }
+
+  .bar i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.35s var(--ease-out);
+  }
+
+  .bar-before { background: #92a0b6; }
+  .bar-after { background: var(--blue); }
+
+  .result-note {
+    margin: 28px 0 0;
+    color: #8d9bb4;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 800px) {
+    .calculator { grid-template-columns: 1fr; }
+    .calculator-form { border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+
+  @media (max-width: 560px) {
+    .calculator-form,
+    .calculator-result { padding: 28px 22px; }
+    .calculator { border-radius: 22px; }
+    .result-metrics { gap: 8px; }
+    .metric { padding: 14px; }
+    .metric strong b { font-size: 26px; }
+    .slider-row { font-size: 13px; }
+    .slider-head strong b { min-width: 64px; font-size: 18px; }
+  }
+</style>

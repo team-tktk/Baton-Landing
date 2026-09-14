@@ -1,6 +1,6 @@
 ---
 import Icon from '@/components/Icon.astro'
-import { links, pilotDeadline } from '@/data/site'
+import { pilotDeadline } from '@/data/site'
 ---
 
 <div
@@ -15,7 +15,7 @@ import { links, pilotDeadline } from '@/data/site'
     <small>파일럿 모집 마감까지 <span class="countdown" data-countdown>--일 --시간 --분 --초</span></small>
   </div>
 
-  <a class="btn-dark cta-btn" href={links.app} rel="noreferrer" target="_blank">무료로 시작하기</a>
+  <a class="btn-dark cta-btn" href="#pricing">바톤 도입하기</a>
 
   <button aria-label="링크 복사" class="share" data-share type="button">
     <Icon name="link" />
