@@ -110,6 +110,9 @@ import { chatDemo } from '@/data/content'
   }
 
   .chat-window {
+    display: flex;
+    height: 360px;
+    flex-direction: column;
     overflow: hidden;
     border-radius: 18px;
     background: var(--bg);
@@ -155,9 +158,11 @@ import { chatDemo } from '@/data/content'
 
   .chat-body {
     display: flex;
-    min-height: 250px;
+    min-height: 0;
+    flex: 1;
     flex-direction: column;
     gap: 12px;
+    overflow: hidden;
     padding: 18px;
   }
 
@@ -207,7 +212,8 @@ import { chatDemo } from '@/data/content'
   }
 
   .msg.thinking.hide {
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .msg.thinking i {
@@ -305,6 +311,10 @@ import { chatDemo } from '@/data/content'
   @media (max-width: 560px) {
     .demo {
       padding: 28px 22px;
+    }
+
+    .chat-window {
+      height: 390px;
     }
   }
 </style>
