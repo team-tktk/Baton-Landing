@@ -4,6 +4,7 @@
  * scoped 블록 안에 @keyframes를 두면 Astro가 이름을 해싱해 참조가 깨집니다.
  */
 
+
 @keyframes rise {
   to {
     opacity: 1;
