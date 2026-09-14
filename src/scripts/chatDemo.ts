@@ -3,6 +3,7 @@ import { prefersReducedMotion } from './motion'
 const TYPING_SPEED_MS = 38
 const THINKING_MS = 1400
 const SOURCE_GAP_MS = 380
+const LOOP_PAUSE_MS = 2400
 
 /**
  * 후임자 Q&A 데모.
@@ -76,9 +77,10 @@ export function initChatDemo(): void {
       await wait(SOURCE_GAP_MS)
       source.classList.add('show')
     }
-  }
 
-  root.querySelector<HTMLButtonElement>('[data-chat-replay]')?.addEventListener('click', play)
+    await wait(LOOP_PAUSE_MS)
+    void play()
+  }
 
   if (!('IntersectionObserver' in window)) {
     void play()

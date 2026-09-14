@@ -11,22 +11,11 @@ export interface NavLink {
 }
 
 export const navLinks: NavLink[] = [
-  { href: '#problem', label: '문제' },
+  { href: '#problem', label: '문제 인식' },
   { href: '#solution', label: '솔루션' },
   { href: '#features', label: '기능' },
   { href: '#pricing', label: '요금제' },
   { href: '#roadmap', label: '로드맵' },
-]
-
-export interface Proof {
-  value: string
-  label: string
-}
-
-export const heroProof: Proof[] = [
-  { value: '4단계', label: '업로드부터 Q&A까지' },
-  { value: '0회', label: '다시 정리하는 문서' },
-  { value: '출처 표시', label: '모든 AI 답변에' },
 ]
 
 export const tickerItems = [
@@ -51,50 +40,85 @@ export interface Stat {
   suffix: string
   label: string
   source: string
+  sourceUrl?: string
 }
 
 export const stats: Stat[] = [
   {
-    count: 34.2,
-    decimals: 1,
-    suffix: '만 명',
-    label: '육아휴직·출산휴가 등 상시 발생하는 업무 공백',
-    source: '고용노동부, 2026',
+    count: 13,
+    suffix: '일',
+    label: '이직 시 인수인계와 업무 정리에 쓰는 평균 기간',
+    source: '인크루트 직장인 1,450명 조사',
+    sourceUrl: 'https://people.incruit.com/news/popupnewsprint.asp?newsno=1244330',
   },
   {
-    count: 18.3,
+    count: 70,
+    suffix: '%',
+    label: '정보 검색·관리 업무에 시간을 쓴다고 답한 국내 직장인',
+    source: 'Dropbox·YouGov 한국 직장인 조사, 2025',
+    sourceUrl: 'https://stock.mk.co.kr/news/view/811873',
+  },
+  {
+    count: 28.7,
     decimals: 1,
     suffix: '%',
-    label: '업무의 AI 전환을 시작한 국내 사업체',
-    source: '한국고용정보원, 2024',
-  },
-  {
-    count: 3,
-    prefix: '5명 중 ',
-    suffix: '명',
-    label: '기존 자료를 다시 찾거나 정리했다고 답한 현직자',
-    source: '현직자 인터뷰, 2026.08',
+    label: '입사 후 1년 안에 회사를 떠나는 신규 입사자',
+    source: '사람인 기업 1,124개사 조사 · 다우오피스HR',
+    sourceUrl: 'https://hr.daouoffice.com/blog/new-hire-onboarding-program-guide',
   },
 ]
 
 export interface Quote {
-  initial: string
+  role: string
+  context: string
+  title: string
   text: string
+  impact: string
+  image: string
+  imageAlt: string
 }
 
 export const quotes: Quote[] = [
-  { initial: 'A', text: '회의록, 메일, 성과 정리를 매번 다시 합니다.' },
-  { initial: 'B', text: '자료가 여러 곳에 흩어져 있어 찾는 데 시간이 많이 들어요.' },
-  { initial: 'C', text: '업무 맥락을 설명하고, 빠진 내용을 계속 다시 알려줘요.' },
+  {
+    role: '재무·운영 담당자',
+    context: '월말 정산 인계',
+    title: '문서는 남았지만, 판단 기준은 남지 않았습니다',
+    text: '파일은 받았지만 어떤 거래를 예외 처리했는지 알 수 없어 전임자에게 다시 연락해야 했습니다.',
+    impact: '마감 직전 재확인 · 업무 지연',
+    image: '/images/problem/finance-handover-v2.jpg',
+    imageAlt: '늦은 저녁 노트북 옆 정산 자료를 검토하는 손',
+  },
+  {
+    role: '프로젝트 매니저',
+    context: '담당자 교체',
+    title: '필요한 자료를 찾는 일부터 다시 시작합니다',
+    text: '회의록과 메일이 여러 도구에 흩어져 있어 업무의 전체 맥락을 파악하는 데 며칠이 걸렸습니다.',
+    impact: '자료 재탐색 · 중복 정리',
+    image: '/images/problem/project-handover-v2.jpg',
+    imageAlt: '회의 테이블 위에 흘어진 업무 자료를 정리하는 손',
+  },
+  {
+    role: '고객지원 팀 리드',
+    context: '반복 문의 대응',
+    title: '사람이 떠나면 질문의 답도 함께 사라집니다',
+    text: '매뉴얼에 없는 고객 대응 맥락은 담당자가 나간 뒤 누구도 확실하게 답하지 못했습니다.',
+    impact: '답변 품질 저하 · 의사결정 정체',
+    image: '/images/problem/support-handover-v2.jpg',
+    imageAlt: '노트북으로 고객 문의에 답하며 메모하는 손',
+  },
 ]
 
-export const legacySteps = ['전임자 직접 설명', '자료 재탐색 · 재정리', '후임자 질문 반복 대응']
+export const legacySteps = [
+  '흩어진 자료를 다시 모아 문서 작성',
+  '빠진 업무 맥락을 구두로 설명',
+  '반복 질문에 전임자가 직접 응답',
+]
 
 export const batonSteps = [
-  '기존 자료 업로드',
-  'AI 인수인계 자동 생성',
-  '검수 · 보완 후 공유',
-  '후임자 AI Q&A',
+  '회의록·메일·문서를 그대로 업로드',
+  'AI가 업무 맥락을 구조화해 초안 생성',
+  '담당자는 빠진 내용만 검수·보완',
+  '후임자는 출처 기반 AI Q&A',
 ]
 
 export interface Feature {

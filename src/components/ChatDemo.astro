@@ -14,13 +14,9 @@ import { chatDemo } from '@/data/content'
     <ul>
       {chatDemo.guarantees.map((item) => <li><Icon name="check" />{item}</li>)}
     </ul>
-    <button class="demo-replay" data-chat-replay type="button">
-      <Icon name="repeat" />
-      다시 재생
-    </button>
   </div>
 
-  <div aria-live="polite" class="chat-window">
+  <div class="chat-window">
     <div class="chat-head">
       <span class="dot"></span><span class="dot"></span><span class="dot"></span>
       <em>{chatDemo.room}</em>
@@ -111,30 +107,6 @@ import { chatDemo } from '@/data/content'
     width: 18px;
     height: 18px;
     color: var(--blue-bright);
-  }
-
-  .demo-replay {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid rgb(255 255 255 / 18%);
-    border-radius: 10px;
-    background: rgb(255 255 255 / 6%);
-    color: var(--on-dark);
-    cursor: pointer;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 700;
-    transition: background 0.2s;
-  }
-
-  .demo-replay:hover {
-    background: rgb(255 255 255 / 14%);
-  }
-
-  .demo-replay :global(svg) {
-    width: 14px;
-    height: 14px;
   }
 
   .chat-window {
