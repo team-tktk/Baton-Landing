@@ -20,18 +20,21 @@ import { plans } from '@/data/content'
             {plan.items.map((item) => <li>{item}</li>)}
           </ul>
           <small>{plan.extra}</small>
-          <div class="plan-actions">
-            <button class="btn-primary" data-channel-intent="apply" data-plan={plan.name} type="button">
-              구매 신청
-            </button>
-            <button class="btn-soft" data-channel-intent="consult" data-plan={plan.name} type="button">
-              구매 상담
-            </button>
-          </div>
+          <button
+            class="btn-primary plan-purchase"
+            data-channel-purchase
+            data-plan={plan.name}
+            data-plan-price={plan.price}
+            aria-label={`${plan.name} 구매하기`}
+            type="button"
+          >
+            구매하기
+          </button>
         </li>
       ))
     }
   </ul>
+  <p class="purchase-note">구매하기를 누르면 채널톡에서 요금제 확인과 견적·계약 안내가 시작됩니다. 즉시 결제되지는 않습니다.</p>
 </Section>
 
 <style>
@@ -145,15 +148,16 @@ import { plans } from '@/data/content'
     font-size: 12px;
   }
 
-  .plan-actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+  .plan-purchase {
+    width: 100%;
   }
 
-  .plan-actions button {
-    width: 100%;
-    padding: 0 8px;
+  .purchase-note {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
   }
 
   @media (max-width: 1000px) {
