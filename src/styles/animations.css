@@ -4,6 +4,7 @@
  * scoped 블록 안에 @keyframes를 두면 Astro가 이름을 해싱해 참조가 깨집니다.
  */
 
+
 @keyframes rise {
   to {
     opacity: 1;
@@ -128,13 +129,6 @@
 @keyframes blink-soft {
   50% {
     opacity: 0.55;
-  }
-}
-
-@keyframes breathe {
-  to {
-    transform: scale(1.04);
-    box-shadow: 0 22px 48px rgb(49 130 246 / 34%);
   }
 }
 

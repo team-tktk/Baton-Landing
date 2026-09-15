@@ -1,0 +1,154 @@
+---
+const files = [
+  { type:'PDF', name:'운영 매뉴얼', color:'#e86760', x:-342, y:-28, tilt:-16 },
+  { type:'XLSX', name:'월별 정산표', color:'#249874', x:-208, y:45, tilt:-9 },
+  { type:'DOCX', name:'프로젝트 회의록', color:'#397de0', x:-72, y:-22, tilt:-3 },
+  { type:'PPTX', name:'프로젝트 기획안', color:'#dc8553', x:72, y:33, tilt:6 },
+  { type:'EML', name:'업무 메일', color:'#8d76cf', x:208, y:-35, tilt:12 },
+  { type:'TXT', name:'담당자 메모', color:'#667b92', x:342, y:36, tilt:18 },
+]
+---
+<div class="motion-stage" data-handover-motion>
+  <div class="motion-viewport" role="img" aria-label="PDF, Excel, Word 등 여섯 개의 파일이 합쳐져 업무 인수인계서로 펼쳐지고, 옆의 AI 채팅에서 질문과 출처가 있는 답변이 이어지는 제품 데모">
+    <div class="motion-canvas" aria-hidden="true">
+      <div class="stage-halo" data-halo></div><div class="impact-ring" data-ring></div>
+      {files.map(file => <div class="file-anchor"><div class="file-card" data-file data-x={file.x} data-y={file.y} data-tilt={file.tilt} style={`--file-color:${file.color};transform:translate(${file.x}px,${file.y}px) rotate(${file.tilt}deg)`}>
+        <span class="file-fold"></span><span class="file-type">{file.type}</span>
+        <div class:list={['file-preview',{'sheet-preview':file.type==='XLSX','slide-preview':file.type==='PPTX'}]}><i></i><i></i><i></i><i></i></div>
+        <strong>{file.name}</strong><small>우리 팀의 업무 맥락</small>
+      </div></div>)}
+      {Array.from({length:8},(_,i)=><span class="impact-spark" data-spark data-angle={i*45}></span>)}
+      <div class="report-anchor"><div class="handover-report" data-report>
+        <article class="report-document">
+          <div class="report-brand">모아스토어 · 운영팀 <span>✓ 자료 6개 정리 완료</span></div>
+          <h3>업무 인수인계</h3>
+          <p class="document-intro">최서윤님의 업무를 정하늘님에게 전달합니다.</p>
+          <div class="document-meta"><span>인계자 <b>최서윤</b></span><span>인수자 <b>정하늘</b></span><span>담당 업무 <b>프로모션 운영 · 주문 관리</b></span><span>업데이트 <b>2026. 09. 11.</b></span></div>
+          <section class="document-section" data-report-row><h4>업무 개요</h4><p>담당자가 바뀌어도 업무가 이어지도록 행사 일정, 주문 현황과 배송 이슈 처리 기준을 정리했습니다.</p></section>
+          <section class="document-section" data-report-row><h4>먼저 이어서 할 일</h4>
+            <div class="document-task"><span class="status blue">진행 중</span><b>가을 정기 할인전 준비</b><small>9월 12일 행사 설정 마무리</small></div>
+            <div class="document-task"><span class="status amber">답변 대기</span><b>새 배송업체 연결</b><small>물류팀 답변 후 조건 등록</small></div>
+            <div class="document-task"><span class="status green">매주 반복</span><b>주간 주문 현황 정리</b><small>월요일 주문과 반품 확인</small></div>
+          </section>
+          <section class="document-section rules" data-report-row><h4>업무 기준과 예외</h4><p>• 쿠폰 할인율이 10%를 넘으면 팀장 승인을 확인합니다.<br/>• 배송업체 답변이 늦으면 다음 날 오전에 물류팀에 공유합니다.</p></section>
+        </article>
+        <aside class="report-chat">
+          <header><div><span>인수인계 AI</span><h4>문서에 대해 물어보세요</h4></div><span class="status green">자료 기반</span></header>
+          <div class="report-chat-body">
+            <div class="chat-message greeting" data-chat-message data-at="5350">안녕하세요, 정하늘님. 인수인계 문서와 첨부 자료를 바탕으로 답할게요.</div>
+            <div class="chat-message question" data-chat-message data-at="6250">첫날 가장 먼저 할 일은?</div>
+            <div class="answer-slot"><div class="chat-typing" data-typing data-at="6740" data-until="7490"><i></i><i></i><i></i></div><div class="chat-message answer" data-chat-message data-at="7500">가을 할인전 일정과 남은 요청을 먼저 확인하세요. 그다음 전날 주문 누락과 배송 지연 건을 확인하면 됩니다.<small>↗ 업무 인수인계 · 첫 주 체크리스트</small></div></div>
+            <div class="chat-message question" data-chat-message data-at="9000">배송 답변이 늦으면 누구에게 물어봐요?</div>
+            <div class="answer-slot"><div class="chat-typing" data-typing data-at="9490" data-until="10240"><i></i><i></i><i></i></div><div class="chat-message answer" data-chat-message data-at="10250">오늘 오후 3시까지 답변이 없으면 오세진님에게 알리고, 내일까지 지연되면 배송업체 담당자에게 일정을 확인하세요.<small>↗ 문제 상황 대응 방법 · 할 일 목록</small></div></div>
+          </div>
+          <div class="chat-composer"><span>업무를 질문하세요</span><b>➤</b></div>
+        </aside>
+        <div class="report-shine" data-shine></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="motion-caption" aria-hidden="true"><span data-caption-start>흩어진 업무 자료가</span><span data-caption-end>하나의 인수인계서로.</span></div>
+</div>
+<style>
+  .motion-stage{position:relative;width:min(100%,1200px);margin-top:22px;overflow:hidden;border:1px solid #e6edf7;border-radius:22px;background:radial-gradient(ellipse at 50% 58%,#e5efff 0%,#f6f9ff 55%,#fff 90%);}
+  .motion-viewport{position:relative;width:100%;height:clamp(360px,52vw,620px);overflow:visible;}.motion-canvas{position:absolute;left:50%;top:50%;width:1000px;height:640px;transform:translate(-50%,-50%) scale(var(--scene-scale,1));}
+  .stage-halo{position:absolute;left:250px;top:90px;width:500px;height:400px;border-radius:50%;background:radial-gradient(ellipse,#90bfff65,transparent 68%);opacity:.3;}
+  .file-anchor,.report-anchor{position:absolute;left:50%;top:49%;width:0;height:0;perspective:1100px;}
+  .file-card{position:absolute;left:-72px;top:-96px;width:144px;height:192px;padding:20px 17px;border:1px solid #dbe3ef;border-radius:13px;background:linear-gradient(145deg,#fff,#fcfdff);box-shadow:0 20px 24px -10px #28497628,0 3px 5px #28497608;transform-origin:center;will-change:transform,opacity;}
+  .file-fold{position:absolute;top:0;right:0;width:24px;height:24px;border-radius:0 11px 0 5px;background:linear-gradient(45deg,#e4eaf3 48%,#f5f8fc 50%);}.file-type{display:inline-block;border-radius:5px;padding:5px 7px;color:white;background:var(--file-color);font-size:12px;font-weight:800;letter-spacing:.03em;}
+  .file-preview{display:flex;flex-direction:column;gap:7px;height:67px;margin-top:16px;}.file-preview i{height:4px;width:100%;border-radius:3px;background:#e5ebf3;}.file-preview i:nth-child(2){width:72%;}.file-preview i:nth-child(4){width:85%;}
+  .sheet-preview{display:grid;grid-template-columns:1fr 1fr;gap:4px;height:51px;margin-bottom:16px;}.sheet-preview i{width:100%!important;height:22px;background:#e5f3ec;border:1px solid #cce6db;border-radius:2px;}
+  .slide-preview{padding:12px;background:#fbefe7;height:51px;margin-bottom:16px;border-radius:4px;}.slide-preview i{background:#edd4c3;}.slide-preview i:nth-child(n+3){display:none;}
+  .file-card strong{display:block;font-size:12px;color:#31415b;letter-spacing:-.04em;}.file-card small{display:block;margin-top:5px;font-size:8px;color:#8e9db1;}
+  .impact-ring{position:absolute;left:370px;top:159px;width:260px;height:260px;border:2px solid #83b4ff;border-radius:50%;opacity:0;}.impact-spark{position:absolute;left:497px;top:286px;width:6px;height:6px;background:#6da5ff;border-radius:2px;opacity:0;}
+  .handover-report{position:absolute;left:-490px;top:-295px;width:980px;height:590px;display:grid;grid-template-columns:1.65fr 1fr;gap:10px;padding:9px;overflow:hidden;background:#f3f6fb;border:1px solid #b9d1f4;border-radius:19px;box-shadow:0 24px 42px -18px rgb(37 100 197 / 28%),0 8px 18px -8px rgb(23 32 51 / 16%);opacity:0;transform-origin:center;will-change:transform,opacity;}
+  .report-document{padding:26px 28px;background:#fff;border:1px solid #e3e8ef;border-radius:15px;overflow:hidden;}
+  .report-brand{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#8a97a8;font-weight:700;}.report-brand>span{font-size:8px;color:#348a70;background:#eef9f5;padding:4px 6px;border-radius:5px;}
+  h3{font-size:31px;letter-spacing:-.065em;color:#191f28;margin:16px 0 8px;font-weight:850;}.document-intro{font-size:11px;color:#778496;margin:0 0 23px;}
+  .document-meta{display:grid;grid-template-columns:1.6fr 1fr;gap:12px 14px;border-block:1px solid #e8edf3;padding:16px 0;font-size:9px;color:#96a2b2;}.document-meta span{display:flex;gap:16px;align-items:center;}.document-meta b{color:#303a49;font-size:10px;}
+  .document-section{margin-top:21px;}.document-section h4{font-size:15px;letter-spacing:-.045em;margin:0 0 12px;color:#242d3b;}.document-section p{font-size:10px;line-height:1.8;color:#7b8798;margin:0;}.document-task{display:grid;grid-template-columns:58px 1fr 1fr;align-items:center;gap:8px;padding:11px 0;border-top:1px solid #edf0f5;}.document-task b{font-size:10px;color:#344054;}.document-task small{font-size:9px;color:#8c98a9;}
+  .status{display:inline-block;justify-self:start;white-space:nowrap;border-radius:20px;padding:5px 7px;font-size:8px;font-weight:700;}.blue{color:#3182f6;background:#eaf3ff;}.amber{color:#c18525;background:#fff5e2;}.green{color:#28a082;background:#e8f8f2;}.rules{margin-top:14px;}.rules h4{margin-bottom:8px;}.rules p{padding:9px 11px;background:#f7f8fa;border-radius:8px;font-size:9px;}
+  .report-chat{display:flex;flex-direction:column;min-width:0;overflow:hidden;background:white;border:1px solid #d5e4fa;border-radius:15px;}.report-chat header{display:flex;justify-content:space-between;align-items:center;padding:20px 17px;border-bottom:1px solid #e9edf4;}.report-chat header div>span{font-size:9px;font-weight:800;color:#3182f6;}.report-chat h4{font-size:15px;letter-spacing:-.045em;margin:5px 0 0;color:#242d3b;}
+  .report-chat-body{flex:1;min-height:0;padding:15px 15px 9px;display:flex;flex-direction:column;gap:10px;}.chat-message{font-size:10px;line-height:1.7;padding:11px 12px;border-radius:13px 13px 13px 3px;color:#586576;background:#f2f4f7;opacity:0;}.chat-message.question{align-self:flex-end;background:#3182f6;color:white;border-radius:13px 13px 3px 13px;padding:10px 12px;}.chat-message small{display:block;font-size:8px;color:#99a5b5;margin-top:7px;}.answer-slot{position:relative;}.chat-typing{position:absolute;left:0;top:0;display:flex;gap:4px;padding:13px 14px;border-radius:13px;background:#f2f4f7;opacity:0;}.chat-typing i{width:4px;height:4px;border-radius:50%;background:#94a5ba;}
+  .chat-composer{display:flex;align-items:center;gap:8px;padding:11px 12px;border-top:1px solid #e9edf4;}.chat-composer>span{flex:1;padding:10px;border:1px solid #e7ebf0;border-radius:9px;background:#f8f9fb;color:#a1a9b5;font-size:11px;}.chat-composer b{display:grid;place-items:center;width:32px;height:32px;background:#3182f6;color:#fff;border-radius:9px;font-size:17px;}
+  .report-shine{position:absolute;inset:-70%;background:linear-gradient(110deg,transparent 43%,#ffffff70 49%,transparent 55%);opacity:0;pointer-events:none;}
+  .motion-caption{position:relative;height:48px;text-align:center;font-size:17px;font-weight:650;letter-spacing:-.035em;color:#435e80;}.motion-caption span{position:absolute;left:0;right:0;top:0;}.motion-caption span+span{opacity:0;color:#246ede;}
+  @media(max-width:600px){.motion-stage{margin-top:10px;border-radius:16px;}.motion-viewport{height:400px;}.motion-canvas{width:620px;height:700px;}.handover-report{left:-300px;top:-325px;width:600px;height:650px;grid-template-columns:1fr 1fr;gap:7px;padding:7px;}.report-document{padding:20px 14px;}.report-brand>span{display:none;}h3{font-size:27px;}.document-meta{grid-template-columns:1fr;gap:9px;}.document-task{grid-template-columns:48px 1fr;gap:5px;}.document-task small{display:none;}.document-section{margin-top:18px;}.rules p{font-size:9px;}.report-chat header{padding:19px 12px;}.report-chat h4{font-size:13px;}.report-chat header>.status{display:none;}.report-chat-body{padding:12px 10px;gap:11px;}.chat-message{font-size:11px;padding:10px;}.chat-message small{font-size:8px;}.stage-halo{left:60px;top:150px;}.impact-ring{left:180px;top:213px;}.impact-spark{left:307px;top:340px;}.motion-caption{font-size:14px;height:32px;}}
+  /* Keep the result canvas fixed while the conversation fills its reserved rows. */
+  .report-document{line-height:1.5;padding:22px 26px;}.report-document h3{line-height:1.2;margin-top:12px;}.document-intro{margin-bottom:16px;}.document-meta{padding-block:12px;}.document-section{margin-top:16px;}.document-section h4{line-height:1.4;margin-bottom:8px;}.document-task{padding-block:6px;}.rules{margin-top:10px;}
+  @media(min-width:601px){.file-anchor,.report-anchor{top:50%;}.stage-halo{top:120px;}.impact-ring{top:190px;}.impact-spark{top:317px;}}
+  @media(min-width:721px) and (max-height:950px){.motion-viewport{height:clamp(420px,55vh,520px);}.motion-caption{height:38px;font-size:15px;}}
+  @media(max-width:600px){.file-anchor{transform:scale(.62);}}
+  @media(prefers-reduced-motion:reduce){.file-anchor,.impact-ring,.impact-spark{display:none;}.handover-report{opacity:1;}.motion-caption span:first-child{opacity:0;}.motion-caption span+span{opacity:1;}}
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-handover-motion]').forEach(stage=>{
+    const viewport=stage.querySelector<HTMLElement>('.motion-viewport')!
+    const canvas=stage.querySelector<HTMLElement>('.motion-canvas')!
+    new ResizeObserver(()=>canvas.style.setProperty('--scene-scale',String(Math.min(viewport.clientWidth/canvas.offsetWidth,viewport.clientHeight/canvas.offsetHeight)))).observe(viewport)
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)')
+    const animations:Animation[]=[]
+    // Compress the original merge/reveal by 1.3x, then reserve time to read the chat.
+    const revealEnd=6600/1.3
+    const readingTime=7200
+    const duration=revealEnd+readingTime+1400/1.3
+    const timeAt=(offset:number)=>offset<=.66?offset*10000/1.3:offset<=.86?revealEnd+(offset-.66)/.2*readingTime:revealEnd+readingTime+(offset-.86)*10000/1.3
+    const animate=(element:Element,frames:Keyframe[],absolute=false)=>{
+      const mapped=frames.map(frame=>({...frame,offset:Math.min(1,Math.max(0,absolute?Number(frame.offset)/duration:timeAt(Number(frame.offset))/duration))}))
+      const a=element.animate(mapped,{duration,iterations:Infinity,fill:'both'});a.pause();animations.push(a)
+    }
+    const ease='cubic-bezier(.76,0,.18,1)'
+    stage.querySelectorAll<HTMLElement>('[data-file]').forEach((file,i)=>{
+      const x=Number(file.dataset.x),y=Number(file.dataset.y),r=Number(file.dataset.tilt),delay=i*.007
+      const pose=(dx:number,dy:number,deg:number,s=1)=>`translate(${dx}px,${dy}px) rotate(${deg}deg) scale(${s})`
+      animate(file,[
+        {offset:0,transform:pose(x,y+25,r-5,.88),opacity:0},
+        {offset:.08,transform:pose(x,y,r),opacity:1,easing:'ease-in-out'},
+        {offset:.22,transform:pose(x*1.025,y-7,r+2),opacity:1,easing:ease},
+        {offset:.28+delay,transform:pose(x*1.1,y*1.1,r*1.2,1.04),opacity:1,easing:ease},
+        {offset:.40+delay,transform:pose((i-2.5)*4,(i-2.5)*3,(i-2.5)*3),opacity:1,easing:ease},
+        {offset:.48,transform:pose(0,0,0,.9),opacity:1,easing:'cubic-bezier(.8,0,.9,.4)'},
+        {offset:.525,transform:pose(0,0,0,.12),opacity:0},
+        {offset:.94,transform:pose(x*.5,y,r,.5),opacity:0},
+        {offset:1,transform:pose(x,y+25,r-5,.88),opacity:0},
+      ])
+    })
+    animate(stage.querySelector('[data-report]')!,[
+      {offset:0,opacity:0,transform:'scale(.1) rotate(-12deg) rotateY(70deg)'},
+      {offset:.51,opacity:0,transform:'scale(.1) rotate(-12deg) rotateY(70deg)',easing:'cubic-bezier(.16,1,.3,1)'},
+      {offset:.60,opacity:1,transform:'scale(1.075) rotate(2deg) rotateY(-8deg)',easing:'ease-in-out'},
+      {offset:.66,opacity:1,transform:'scale(1) rotate(0) rotateY(0)'},
+      {offset:.86,opacity:1,transform:'scale(1) translateY(-3px)',easing:ease},
+      {offset:.94,opacity:0,transform:'scale(.88) translateY(25px)'},
+      {offset:1,opacity:0,transform:'scale(.1)'},
+    ])
+    stage.querySelectorAll('[data-report-row]').forEach((row,i)=>animate(row,[{offset:0,opacity:0,transform:'translateY(12px)'},{offset:.58+i*.025,opacity:0,transform:'translateY(12px)',easing:'cubic-bezier(.16,1,.3,1)'},{offset:.67+i*.025,opacity:1,transform:'translateY(0)'},{offset:.90,opacity:1},{offset:1,opacity:0}]))
+    animate(stage.querySelector('[data-ring]')!,[{offset:0,opacity:0,transform:'scale(.1)'},{offset:.52,opacity:0,transform:'scale(.1)',easing:'cubic-bezier(.16,1,.3,1)'},{offset:.55,opacity:.55},{offset:.67,opacity:0,transform:'scale(2.2)'},{offset:1,opacity:0}])
+    stage.querySelectorAll<HTMLElement>('[data-spark]').forEach(spark=>{const a=Number(spark.dataset.angle)*Math.PI/180;animate(spark,[{offset:0,opacity:0,transform:'scale(0)'},{offset:.52,opacity:0,transform:'scale(0)',easing:'cubic-bezier(.16,1,.3,1)'},{offset:.56,opacity:.8},{offset:.66,opacity:0,transform:`translate(${Math.cos(a)*220}px,${Math.sin(a)*180}px) rotate(120deg) scale(.5)`},{offset:1,opacity:0}])})
+    animate(stage.querySelector('[data-halo]')!,[{offset:0,opacity:.2,transform:'scale(.8)'},{offset:.48,opacity:.4,transform:'scale(.6)'},{offset:.56,opacity:1,transform:'scale(1.2)'},{offset:.73,opacity:.5,transform:'scale(1)'},{offset:1,opacity:.2,transform:'scale(.8)'}])
+    animate(stage.querySelector('[data-shine]')!,[{offset:0,opacity:0,transform:'translateX(-65%)'},{offset:.64,opacity:0,transform:'translateX(-65%)'},{offset:.67,opacity:.8},{offset:.78,opacity:0,transform:'translateX(65%)'},{offset:1,opacity:0}])
+    animate(stage.querySelector('[data-caption-start]')!,[{offset:0,opacity:0,transform:'translateY(8px)'},{offset:.08,opacity:1,transform:'translateY(0)'},{offset:.42,opacity:1},{offset:.5,opacity:0,transform:'translateY(-8px)'},{offset:1,opacity:0}])
+    animate(stage.querySelector('[data-caption-end]')!,[{offset:0,opacity:0,transform:'translateY(8px)'},{offset:.58,opacity:0,transform:'translateY(8px)'},{offset:.66,opacity:1,transform:'translateY(0)'},{offset:.87,opacity:1},{offset:.95,opacity:0,transform:'translateY(-8px)'},{offset:1,opacity:0}])
+    stage.querySelectorAll<HTMLElement>('[data-chat-message]').forEach(message=>{
+      const at=Number(message.dataset.at)
+      animate(message,[{offset:0,opacity:0,transform:'translateY(9px) scale(.97)'},{offset:at,opacity:0,transform:'translateY(9px) scale(.97)',easing:'cubic-bezier(.2,.8,.2,1)'},{offset:at+350,opacity:1,transform:'translateY(0) scale(1)'},{offset:duration,opacity:1}],true)
+    })
+    stage.querySelectorAll<HTMLElement>('[data-typing]').forEach(typing=>{
+      const at=Number(typing.dataset.at),until=Number(typing.dataset.until)
+      animate(typing,[{offset:0,opacity:0},{offset:at,opacity:0},{offset:at+100,opacity:1},{offset:until-100,opacity:1},{offset:until,opacity:0},{offset:duration,opacity:0}],true)
+      typing.querySelectorAll('i').forEach((dot,i)=>animate(dot,[{offset:0,transform:'translateY(0)'},{offset:at+i*70,transform:'translateY(0)'},{offset:at+200+i*70,transform:'translateY(-3px)'},{offset:at+400+i*70,transform:'translateY(0)'},{offset:duration,transform:'translateY(0)'}],true))
+    })
+    const brand=stage.closest<HTMLElement>('[data-hero-brand]')
+    let visible=false
+    const sync=()=>{
+      const stop=!visible||document.hidden||Boolean(brand?.hasAttribute('inert'))||reduced.matches
+      const now=document.timeline.currentTime
+      animations.forEach(a=>{if(reduced.matches){a.pause();a.currentTime=11500}else if(stop)a.pause();else if(a.playState!=='running'){const current=Number(a.currentTime??0);a.play();if(now!==null)a.startTime=Number(now)-current}})
+      stage.dataset.paused=String(stop)
+    }
+    new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync()}).observe(stage)
+    if(brand)new MutationObserver(sync).observe(brand,{attributes:true,attributeFilter:['inert']})
+    document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync)
+    sync()
+  })
+</script>

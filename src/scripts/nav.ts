@@ -1,5 +1,6 @@
 /** 900px 이하에서 .nav-links를 대신하는 패널을 엽니다. */
 function initMenu(): void {
+  const header = document.querySelector<HTMLElement>('[data-nav]')
   const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]')
   const menu = document.querySelector<HTMLElement>('[data-nav-menu]')
   const scrim = document.querySelector<HTMLElement>('[data-nav-scrim]')
@@ -19,6 +20,7 @@ function initMenu(): void {
     toggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기')
     menu.classList.toggle('open', open)
     scrim.classList.toggle('open', open)
+    header?.classList.toggle('menu-open', open)
     document.documentElement.classList.toggle('menu-open', open)
 
     // inert는 닫힌 패널이 탭 순서와 스크린 리더에 잡히지 않게 합니다.
