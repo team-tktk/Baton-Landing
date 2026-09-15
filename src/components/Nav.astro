@@ -110,9 +110,7 @@ import { links, site } from '@/data/site'
     height: 40px;
     place-items: center;
     border: 0;
-    border-radius: 50%;
-    background: linear-gradient(145deg, var(--surface), var(--blue-2));
-    box-shadow: 0 10px 24px rgb(49 130 246 / 12%);
+    background: transparent;
     transition: transform 0.3s var(--ease-out);
   }
 
@@ -121,8 +119,8 @@ import { links, site } from '@/data/site'
   }
 
   .brand-mark img {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
     object-fit: contain;
   }
 
@@ -190,17 +188,16 @@ import { links, site } from '@/data/site'
     height: 40px;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgb(49 130 246 / 18%);
+    border: 0;
     border-radius: 999px;
-    background: var(--blue-1);
+    background: transparent;
     cursor: pointer;
     padding: 0;
     color: var(--blue-dark);
-    transition: background 0.18s, border-color 0.18s, color 0.18s;
+    transition: background 0.18s, color 0.18s;
   }
 
   .nav-toggle:hover {
-    border-color: rgb(49 130 246 / 38%);
     background: var(--blue-2);
   }
 
@@ -224,9 +221,8 @@ import { links, site } from '@/data/site'
   }
 
   .nav-toggle[aria-expanded='true'] {
-    border-color: var(--navy);
-    background: var(--navy);
-    color: var(--surface);
+    background: var(--blue-2);
+    color: var(--blue-dark);
   }
 
   .nav-scrim {

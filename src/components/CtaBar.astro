@@ -17,7 +17,7 @@ import { pilotDeadline } from '@/data/site'
 
   <a class="btn-dark cta-btn" href="#pricing">무료로 도입하기</a>
 
-  <button aria-label="채널톡으로 문의하기" class="btn-primary cta-btn cta-inquiry" data-channel-direct type="button">
+  <button aria-label="채널톡으로 문의하기" class="btn-ghost cta-btn cta-inquiry" data-channel-direct type="button">
     <Icon name="support" />
   </button>
 </div>
@@ -92,10 +92,15 @@ import { pilotDeadline } from '@/data/site'
 
   .cta-inquiry {
     width: 48px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--blue-dark);
     padding: 0;
   }
 
   .cta-inquiry:hover {
+    border-color: var(--blue-7);
+    background: var(--blue-2);
     transform: translateY(-1px);
   }
 
@@ -118,6 +123,10 @@ import { pilotDeadline } from '@/data/site'
 
     .cta-btn {
       padding: 0 16px;
+    }
+
+    .cta-inquiry {
+      padding: 0;
     }
   }
 </style>
