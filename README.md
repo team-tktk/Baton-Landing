@@ -122,7 +122,7 @@ Variables
 | --- | --- |
 | `AWS_REGION` | 버킷이 있는 리전 |
 | `SITE_URL` | 운영 도메인. 예: `https://baton.co.kr` |
-| `CHANNEL_TALK_PLUGIN_KEY` | 채널톡 데스크에서 발급한 웹 플러그인 키. 요금제 카드의 구매 대화에 사용 |
+| `CHANNEL_TALK_PLUGIN_KEY` | 채널톡 데스크에서 발급한 웹 플러그인 키. 신청폼 이후 상담 연결에 사용 |
 
 Vercel 쪽에도 같은 이름의 변수를 Production 환경에 넣어두었습니다. 값은 Vercel이 할당한 `https://baton-landing-rho.vercel.app`입니다. 변수가 없으면 `astro.config.mjs`의 폴백이 같은 주소를 쓰므로 이중 안전장치입니다.
 
@@ -130,11 +130,22 @@ Vercel 쪽에도 같은 이름의 변수를 Production 환경에 넣어두었습
 
 `src/data/site.ts`의 `links.app`은 서비스 앱 주소라 배포와 별개입니다. 앱 도메인이 바뀌면 여기도 같이 고쳐주세요.
 
-### 채널톡 구매 문의
+### 채널톡 도입 상담
 
-Starter·Business의 `구매하기`와 Enterprise Cloud·Private / On-premise의 `문의하기`는 선택한 플랜에 맞는 문구를 채널톡 새 대화 입력란에 미리 채웁니다. 방문자가 메시지를 직접 전송하면 상담이 시작됩니다. 클릭 이벤트 `PurchaseStart` 또는 `PricingInquiryStart`에는 선택한 플랜과 가격만 기록합니다. 버튼 클릭만으로 결제나 계약이 완료되지는 않습니다.
+히어로와 하단 CTA의 `무료로 도입하기`는 요금제 섹션으로 이동합니다. Starter·Business의 `무료로 시작하기`, Enterprise Cloud·Private / On-premise의 `문의하기`는 사이트 신청폼을 먼저 엽니다. 회사명·담당자명·업무용 이메일·예상 사용자 수를 필수로 받고 연락처는 선택으로 둡니다. 제출하면 입력한 정보가 채널톡 새 대화의 입력란에 미리 채워지며, 방문자가 직접 전송하기 전에는 상담 메시지가 접수되지 않습니다. 무료 플랜에서 워크플로우를 전제로 하지 않고도 상담 시작에 필요한 정보를 확보하는 흐름입니다.
 
-채널톡 데스크의 `고객 → 서포트 → 워크플로우 → + 워크플로우 만들기`에서 `새 상담을 시작할 때 챗봇` 트리거를 선택하고, 페이지 필터에 SDK가 설정한 `baton-pricing` 값을 사용하세요. 사이트는 상담 페이지 값과 함께 `planName`, `requestType`, `listedPrice`를 상담 프로필에 넣습니다. 추천 순서는 문의 유형·플랜·사용 규모 확인 → 회사/담당자 연락처 입력폼 → 구매/견적 상담 태그와 담당팀 배정 → 견적·계약·결제 안내입니다. 워크플로우가 종료된 뒤 사이트가 미리 채운 플랜별 문구가 입력창에 나타나므로, 플랜별 자동 분기에는 워크플로우 안의 응답 버튼을 사용하세요. 입력폼의 개인정보 수집 안내는 운영 정책에 맞게 검토해야 합니다. 이 워크플로우는 사이트 코드가 아니라 채널톡 데스크에서 활성화해야 하며, 현재 사이트는 플랜별 대화로 연결하는 단계까지 구현되어 있습니다.
+하단 CTA의 `문의하기`는 신청폼을 거치지 않고 채널톡을 바로 엽니다. 도입 문의 문구만 입력란에 미리 채우며, 역시 사용자가 보내기 전에는 접수되지 않습니다.
+
+사이트는 상담 페이지를 `baton-pricing`으로 설정하고 `planName`, `requestType`, `listedPrice`를 함께 전달합니다. `requestType`은 무료 도입일 때 `trial`, 맞춤 견적일 때 `inquiry`입니다. 클릭이 아니라 신청폼 제출 시 `FreeTrialStart` 또는 `PricingInquiryStart` 이벤트가 기록됩니다.
+
+채널톡 데스크에서는 워크플로우 없이도 다음 기본 설정으로 운영할 수 있습니다.
+
+1. `설정 → 상담 → 태그`에서 `무료 도입`, `가격 문의`, `Starter`, `Business`, `Enterprise` 태그를 만듭니다.
+2. `설정 → 상담 → 팀`에서 영업/도입 상담 담당팀을 정하고, 새 상담 알림을 해당 팀에 연결합니다.
+3. 상담 프로필의 `requestType`, `planName`, `listedPrice`와 첫 메시지의 회사·담당자·사용자 수를 기준으로 태그와 담당자를 지정합니다.
+4. 반복 답변은 개인/팀 매크로로 등록해 견적, 계약, 결제 절차를 빠르게 안내합니다. 필요해진 뒤에만 `고객 → 서포트 → 워크플로우`에서 조건 분기나 자동 응답을 추가하면 됩니다.
+
+공식 도움말: [채널톡 웹 SDK](https://developers.channel.io/en/articles/ChannelIO-0b119290), [태그 관리](https://docs.channel.io/help/ko/articles/5a5314d8), [워크플로우 만들기](https://docs.channel.io/help/ko/articles/a497fa44-%EC%9B%8C%ED%81%B4%EB%A1%9C%EC%9A%B0-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0)
 
 로컬에서는 `.env`에 `PUBLIC_CHANNEL_TALK_PLUGIN_KEY=플러그인키`를 넣고 개발 서버를 다시 시작하세요. 운영 배포는 위 GitHub Actions Variable `CHANNEL_TALK_PLUGIN_KEY`를 빌드할 때 읽습니다. Vercel 개발 배포에도 `PUBLIC_CHANNEL_TALK_PLUGIN_KEY`를 환경 변수로 등록해야 동일하게 동작합니다. 플러그인 키가 없으면 채널톡 SDK를 부트하지 않고 버튼에 준비 중 안내가 표시됩니다.
 

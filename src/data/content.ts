@@ -184,7 +184,7 @@ export interface Plan {
   name: string
   price: string
   unit?: string
-  intent?: 'inquiry'
+  intent?: 'trial' | 'inquiry'
   featured?: boolean
   badge?: string
   items: string[]
