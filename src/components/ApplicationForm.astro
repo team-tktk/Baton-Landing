@@ -55,8 +55,17 @@
       <span aria-hidden="true" class="application-complete-mark">✓</span>
       <p>접수가 완료되었습니다</p>
       <h3>확인 후 연락드리겠습니다.</h3>
-      <span data-application-complete-email></span>
-      <small>영업일 기준 24시간 이내에 남겨주신 연락처로 안내드릴게요.</small>
+      <dl class="application-contact-summary">
+        <div>
+          <dt>이메일</dt>
+          <dd data-application-complete-email></dd>
+        </div>
+        <div data-application-complete-phone hidden>
+          <dt>전화번호</dt>
+          <dd data-application-complete-phone-value></dd>
+        </div>
+      </dl>
+      <small data-application-complete-notice>영업일 기준 24시간 이내에 이메일로 안내드릴게요.</small>
       <button class="btn-primary" data-application-close type="button">확인</button>
     </section>
   </form>
@@ -211,6 +220,10 @@
     text-align: center;
   }
 
+  .application-complete[hidden] {
+    display: none;
+  }
+
   .application-complete-mark {
     display: grid;
     width: 52px;
@@ -237,11 +250,40 @@
     letter-spacing: -0.04em;
   }
 
-  .application-complete > span:not(.application-complete-mark) {
-    margin-top: 12px;
+  .application-contact-summary {
+    display: grid;
+    width: min(100%, 360px);
+    gap: 8px;
+    margin: 18px 0 0;
+  }
+
+  .application-contact-summary div {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-radius: 10px;
+    background: var(--blue-soft);
+    padding: 10px 12px;
+    text-align: left;
+  }
+
+  .application-contact-summary dt {
+    flex: none;
+    color: var(--sub);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .application-contact-summary dd {
+    overflow: hidden;
+    margin: 0;
     color: var(--body);
-    font-size: 14px;
-    font-weight: 750;
+    font-size: 13px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .application-complete small {

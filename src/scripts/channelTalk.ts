@@ -36,6 +36,9 @@ export function initChannelTalk(): void {
   const formContent = dialog.querySelector<HTMLElement>('[data-application-content]')
   const complete = dialog.querySelector<HTMLElement>('[data-application-complete]')
   const completeEmail = dialog.querySelector<HTMLElement>('[data-application-complete-email]')
+  const completePhone = dialog.querySelector<HTMLElement>('[data-application-complete-phone]')
+  const completePhoneValue = dialog.querySelector<HTMLElement>('[data-application-complete-phone-value]')
+  const completeNotice = dialog.querySelector<HTMLElement>('[data-application-complete-notice]')
 
   let current = {
     plan: '무료 도입',
@@ -75,7 +78,7 @@ export function initChannelTalk(): void {
         plan: request.plan,
         price: request.price,
       })
-      showComplete(request.email)
+      showComplete(request)
     })
   }
 
@@ -139,10 +142,17 @@ export function initChannelTalk(): void {
     }
   }
 
-  function showComplete(email: string): void {
+  function showComplete(request: PurchaseRequest): void {
     formContent?.setAttribute('hidden', '')
     complete?.removeAttribute('hidden')
-    if (completeEmail) completeEmail.textContent = email
+    if (completeEmail) completeEmail.textContent = request.email
+    if (completePhoneValue) completePhoneValue.textContent = request.phone
+    completePhone?.toggleAttribute('hidden', !request.phone)
+    if (completeNotice) {
+      completeNotice.textContent = request.phone
+        ? '영업일 기준 24시간 이내에 이메일과 전화번호로 안내드릴게요.'
+        : '영업일 기준 24시간 이내에 이메일로 안내드릴게요.'
+    }
   }
 
   if (pluginKey) {
