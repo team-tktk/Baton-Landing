@@ -122,12 +122,19 @@ Variables
 | --- | --- |
 | `AWS_REGION` | 버킷이 있는 리전 |
 | `SITE_URL` | 운영 도메인. 예: `https://baton.co.kr` |
+| `CHANNEL_TALK_PLUGIN_KEY` | 채널톡 데스크에서 발급한 웹 플러그인 키. 요금제 카드의 구매 상담·신청 대화에 사용 |
 
 Vercel 쪽에도 같은 이름의 변수를 Production 환경에 넣어두었습니다. 값은 Vercel이 할당한 `https://baton-landing-rho.vercel.app`입니다. 변수가 없으면 `astro.config.mjs`의 폴백이 같은 주소를 쓰므로 이중 안전장치입니다.
 
 `SITE_URL`은 `astro.config.mjs`의 `site`로 들어가 canonical URL과 OG 이미지 주소를 만듭니다. 값이 없으면 Vercel 주소로 빌드되므로, 워크플로가 빌드 직후 canonical이 운영 도메인인지 확인하고 아니면 실패시킵니다.
 
 `src/data/site.ts`의 `links.app`은 서비스 앱 주소라 배포와 별개입니다. 앱 도메인이 바뀌면 여기도 같이 고쳐주세요.
+
+### 채널톡 구매 문의
+
+요금제 카드의 `구매 상담`과 `구매 신청`은 선택한 요금제와 요청 목적을 채널톡 새 대화 입력란에 미리 채웁니다. 방문자가 메시지를 직접 전송하면 상담이 시작됩니다. 실제 결제나 계약은 이 버튼만으로 완료되지 않습니다.
+
+로컬에서는 `.env`에 `PUBLIC_CHANNEL_TALK_PLUGIN_KEY=플러그인키`를 넣고 개발 서버를 다시 시작하세요. 운영 배포는 위 GitHub Actions Variable `CHANNEL_TALK_PLUGIN_KEY`를 빌드할 때 읽습니다. Vercel 개발 배포에도 `PUBLIC_CHANNEL_TALK_PLUGIN_KEY`를 환경 변수로 등록해야 동일하게 동작합니다. 플러그인 키가 없으면 채널톡 SDK를 부트하지 않고 버튼에 준비 중 안내가 표시됩니다.
 
 ## 남은 과제
 

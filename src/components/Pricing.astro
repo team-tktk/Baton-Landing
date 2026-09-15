@@ -1,7 +1,6 @@
 ---
 import Section from '@/components/Section.astro'
 import { plans } from '@/data/content'
-import { links } from '@/data/site'
 ---
 
 <Section id="pricing" index="05. 요금제" kicker="팀 규모에 맞게 시작하세요">
@@ -21,14 +20,14 @@ import { links } from '@/data/site'
             {plan.items.map((item) => <li>{item}</li>)}
           </ul>
           <small>{plan.extra}</small>
-          <a
-            class={plan.cta === '도입 문의' ? 'btn-soft' : 'btn-primary'}
-            href={plan.cta === '도입 문의' ? links.github : links.app}
-            rel="noreferrer"
-            target="_blank"
-          >
-            {plan.cta}
-          </a>
+          <div class="plan-actions">
+            <button class="btn-primary" data-channel-intent="apply" data-plan={plan.name} type="button">
+              구매 신청
+            </button>
+            <button class="btn-soft" data-channel-intent="consult" data-plan={plan.name} type="button">
+              구매 상담
+            </button>
+          </div>
         </li>
       ))
     }
@@ -144,6 +143,17 @@ import { links } from '@/data/site'
     margin-bottom: 18px;
     color: var(--muted);
     font-size: 12px;
+  }
+
+  .plan-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .plan-actions button {
+    width: 100%;
+    padding: 0 8px;
   }
 
   @media (max-width: 1000px) {

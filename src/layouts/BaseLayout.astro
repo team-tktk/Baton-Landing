@@ -1,5 +1,6 @@
 ---
 import { site } from '@/data/site'
+import ChannelTalk from '@/components/ChannelTalk.astro'
 
 import '@/styles/tokens.css'
 import '@/styles/base.css'
@@ -42,6 +43,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
   <body>
     <a class="skip" href="#problem">본문으로 건너뛰기</a>
     <slot />
+    <ChannelTalk />
     <div class="toast" data-toast role="status" aria-live="polite"></div>
 
     <style>

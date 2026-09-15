@@ -188,7 +188,6 @@ export interface Plan {
   badge?: string
   items: string[]
   extra: string
-  cta: '무료로 시작하기' | '도입 문의'
 }
 
 export const plans: Plan[] = [
@@ -204,7 +203,6 @@ export const plans: Plan[] = [
       '출처 기반 후임자 Q&A',
     ],
     extra: '초과 시 인수인계 1건당 15,000원',
-    cta: '무료로 시작하기',
   },
   {
     name: 'Business',
@@ -216,21 +214,18 @@ export const plans: Plan[] = [
       '우선 지원',
     ],
     extra: '초과 시 1건당 12,000원 또는 협의',
-    cta: '무료로 시작하기',
   },
   {
     name: 'Enterprise Cloud',
     price: '별도 견적',
     items: ['사용자 · 처리량 확대', '전용 지원 · 보안 검토', 'SLA 보장 · 연간 계약'],
     extra: '연간 계약 기준',
-    cta: '도입 문의',
   },
   {
     name: 'Private / On-premise',
     price: '구축비 + 유지보수비',
     items: ['사내망 설치', '전용 DB · 스토리지 · LLM 연결', '운영 지원'],
     extra: '별도 협의',
-    cta: '도입 문의',
   },
 ]
 

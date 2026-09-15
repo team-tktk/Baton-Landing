@@ -42,6 +42,7 @@ jobs:
         env:
           # canonical URL과 OG 이미지가 운영 도메인을 가리키게 합니다.
           SITE_URL: ${{ vars.SITE_URL }}
+          PUBLIC_CHANNEL_TALK_PLUGIN_KEY: ${{ vars.CHANNEL_TALK_PLUGIN_KEY }}
         run: npm run build
 
       - name: 운영 도메인이 들어갔는지 확인
