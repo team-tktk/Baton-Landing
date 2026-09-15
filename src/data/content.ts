@@ -184,6 +184,7 @@ export interface Plan {
   name: string
   price: string
   unit?: string
+  intent?: 'inquiry'
   featured?: boolean
   badge?: string
   items: string[]
@@ -218,12 +219,14 @@ export const plans: Plan[] = [
   {
     name: 'Enterprise Cloud',
     price: '별도 견적',
+    intent: 'inquiry',
     items: ['사용자 · 처리량 확대', '전용 지원 · 보안 검토', 'SLA 보장 · 연간 계약'],
     extra: '연간 계약 기준',
   },
   {
     name: 'Private / On-premise',
     price: '구축비 + 유지보수비',
+    intent: 'inquiry',
     items: ['사내망 설치', '전용 DB · 스토리지 · LLM 연결', '운영 지원'],
     extra: '별도 협의',
   },

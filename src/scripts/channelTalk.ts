@@ -6,13 +6,14 @@ const pluginKey = import.meta.env.PUBLIC_CHANNEL_TALK_PLUGIN_KEY?.trim()
 interface Purchase {
   plan: string
   price: string
+  intent: 'purchase' | 'inquiry'
 }
 
-function messageFor({ plan, price }: Purchase): string {
-  if (price.includes('원') && !price.includes('구축비')) {
+function messageFor({ plan, price, intent }: Purchase): string {
+  if (intent === 'purchase') {
     return `안녕하세요. BATON ${plan} (${price}/월) 구매를 검토 중입니다. 사용 규모에 맞는 견적과 계약·결제 절차를 안내해 주세요.`
   }
-  return `안녕하세요. BATON ${plan} 도입을 검토 중입니다. 요구사항 확인부터 맞춤 견적과 계약 절차까지 안내해 주세요.`
+  return `안녕하세요. BATON ${plan} 도입 문의드립니다. 요구사항 확인부터 맞춤 견적과 계약 절차까지 안내해 주세요.`
 }
 
 /** 요금제 카드의 구매 버튼을 플랜별 채널톡 구매 대화에 연결합니다. */
@@ -25,7 +26,15 @@ export function initChannelTalk(): void {
   let pendingPurchase: Purchase | null = null
 
   function openPurchase(purchase: Purchase): void {
-    ChannelService.track('PurchaseStart', { plan: purchase.plan, price: purchase.price })
+    ChannelService.setPage('baton-pricing', {
+      planName: purchase.plan,
+      requestType: purchase.intent,
+      listedPrice: purchase.price,
+    })
+    ChannelService.track(purchase.intent === 'inquiry' ? 'PricingInquiryStart' : 'PurchaseStart', {
+      plan: purchase.plan,
+      price: purchase.price,
+    })
     ChannelService.openChat(undefined, messageFor(purchase))
   }
 
@@ -64,8 +73,9 @@ export function initChannelTalk(): void {
 
       const plan = button.dataset.plan
       const price = button.dataset.planPrice
-      if (!plan || !price) return
-      const purchase = { plan, price }
+      const intent = button.dataset.channelIntent
+      if (!plan || !price || (intent !== 'purchase' && intent !== 'inquiry')) return
+      const purchase: Purchase = { plan, price, intent }
 
       if (!bootReady) {
         pendingPurchase = purchase

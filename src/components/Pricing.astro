@@ -23,18 +23,19 @@ import { plans } from '@/data/content'
           <button
             class="btn-primary plan-purchase"
             data-channel-purchase
+            data-channel-intent={plan.intent ?? 'purchase'}
             data-plan={plan.name}
             data-plan-price={plan.price}
-            aria-label={`${plan.name} 구매하기`}
+            aria-label={`${plan.name} ${plan.intent === 'inquiry' ? '문의하기' : '구매하기'}`}
             type="button"
           >
-            구매하기
+            {plan.intent === 'inquiry' ? '문의하기' : '구매하기'}
           </button>
         </li>
       ))
     }
   </ul>
-  <p class="purchase-note">구매하기를 누르면 채널톡에서 요금제 확인과 견적·계약 안내가 시작됩니다. 즉시 결제되지는 않습니다.</p>
+  <p class="purchase-note">구매하기·문의하기를 누르면 채널톡에서 요금제 확인과 견적·계약 안내가 시작됩니다. 즉시 결제되지는 않습니다.</p>
 </Section>
 
 <style>
