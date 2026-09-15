@@ -40,6 +40,7 @@ export function initChannelTalk(): void {
   const starts = document.querySelectorAll<HTMLButtonElement>('[data-application-start]')
   const planButtons = document.querySelectorAll<HTMLButtonElement>('[data-channel-purchase][data-plan]')
   const directButtons = document.querySelectorAll<HTMLButtonElement>('[data-channel-direct]')
+  const ctaBar = document.querySelector<HTMLElement>('[data-cta-bar]')
 
   if (!form || !dialog || (!starts.length && !planButtons.length && !directButtons.length)) return
 
@@ -81,6 +82,10 @@ export function initChannelTalk(): void {
     ChannelService.openChat(undefined, '안녕하세요. BATON 도입을 문의드립니다. 요금제와 도입 절차를 안내해 주세요.')
   }
 
+  function setCtaBarChatOpen(isOpen: boolean): void {
+    ctaBar?.classList.toggle('channel-open', isOpen)
+  }
+
   function startChat(action: () => void): void {
     if (!pluginKey) {
       showToast('상담 채널이 아직 연결되지 않았습니다. 잠시 후 다시 시도해 주세요.')
@@ -109,7 +114,7 @@ export function initChannelTalk(): void {
       ? '필요한 정보를 남겨주시면 담당자가 맞춤 견적과 도입 절차를 안내합니다.'
       : '필요한 정보를 먼저 확인한 뒤, 채널톡에서 도입 상담을 이어갑니다.'
     if (selectedPlan) selectedPlan.textContent = `${plan} · ${price}`
-    if (submit) submit.textContent = requestType === 'inquiry' ? '채널톡에서 문의하기' : '채널톡에서 계속하기'
+    if (submit) submit.textContent = requestType === 'inquiry' ? '문의하기' : '신청하기'
 
     if (typeof dialog!.showModal === 'function') {
       dialog!.showModal()
@@ -140,6 +145,8 @@ export function initChannelTalk(): void {
         }
 
         bootReady = true
+        ChannelService.onShowMessenger(() => setCtaBarChatOpen(true))
+        ChannelService.onHideMessenger(() => setCtaBarChatOpen(false))
         if (pendingAction) {
           pendingAction()
           pendingAction = null

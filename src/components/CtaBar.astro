@@ -1,4 +1,5 @@
 ---
+import Icon from '@/components/Icon.astro'
 import { pilotDeadline } from '@/data/site'
 ---
 
@@ -16,7 +17,9 @@ import { pilotDeadline } from '@/data/site'
 
   <a class="btn-dark cta-btn" href="#pricing">무료로 도입하기</a>
 
-  <button aria-label="채널톡으로 문의하기" class="btn-dark cta-btn cta-inquiry" data-channel-direct type="button">문의하기</button>
+  <button aria-label="채널톡으로 문의하기" class="btn-primary cta-btn cta-inquiry" data-channel-direct type="button">
+    <Icon name="chat" />
+  </button>
 </div>
 
 <style>
@@ -45,6 +48,12 @@ import { pilotDeadline } from '@/data/site'
   .cta-bar.show {
     opacity: 1;
     transform: translate(-50%, 0);
+  }
+
+  .cta-bar.channel-open {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 140%);
   }
 
   .cta-copy {
@@ -82,7 +91,17 @@ import { pilotDeadline } from '@/data/site'
   }
 
   .cta-inquiry {
-    padding: 0 20px;
+    width: 48px;
+    padding: 0;
+  }
+
+  .cta-inquiry:hover {
+    transform: translateY(-1px);
+  }
+
+  .cta-inquiry :global(svg) {
+    width: 19px;
+    height: 19px;
   }
 
   @media (max-width: 560px) {
