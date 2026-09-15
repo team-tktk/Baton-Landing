@@ -9,45 +9,56 @@
       <button aria-label="신청폼 닫기" class="application-close" data-application-close type="button">×</button>
     </div>
 
-    <p class="application-intro" data-application-intro>
-      필요한 정보를 먼저 확인한 뒤, 채널톡에서 도입 상담을 이어갑니다.
-    </p>
+    <div data-application-content>
+      <p class="application-intro" data-application-intro>
+        필요한 정보를 남겨주시면 담당자가 확인한 뒤 이메일로 안내드립니다.
+      </p>
 
-    <div class="application-fields">
-      <label>
-        회사명 <em>필수</em>
-        <input autocomplete="organization" name="company" required type="text" />
-      </label>
-      <label>
-        담당자명 <em>필수</em>
-        <input autocomplete="name" name="name" required type="text" />
-      </label>
-      <label>
-        업무용 이메일 <em>필수</em>
-        <input autocomplete="email" name="email" required type="email" />
-      </label>
-      <label>
-        연락처 <span>선택</span>
-        <input autocomplete="tel" name="phone" type="tel" />
-      </label>
-      <label class="application-wide">
-        예상 사용자 수 <em>필수</em>
-        <select name="teamSize" required>
-          <option value="" selected disabled>선택해 주세요</option>
-          <option>1–10명</option>
-          <option>11–30명</option>
-          <option>31–100명</option>
-          <option>101명 이상</option>
-        </select>
-      </label>
+      <div class="application-fields">
+        <label>
+          회사명 <em>필수</em>
+          <input autocomplete="organization" name="company" required type="text" />
+        </label>
+        <label>
+          담당자명 <em>필수</em>
+          <input autocomplete="name" name="name" required type="text" />
+        </label>
+        <label>
+          업무용 이메일 <em>필수</em>
+          <input autocomplete="email" name="email" required type="email" />
+        </label>
+        <label>
+          연락처 <span>선택</span>
+          <input autocomplete="tel" name="phone" type="tel" />
+        </label>
+        <label class="application-wide">
+          예상 사용자 수 <em>필수</em>
+          <select name="teamSize" required>
+            <option value="" selected disabled>선택해 주세요</option>
+            <option>1–10명</option>
+            <option>11–30명</option>
+            <option>31–100명</option>
+            <option>101명 이상</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="application-privacy">제출한 정보는 도입 상담 확인과 답변을 위해 채널톡 고객 프로필에 저장됩니다.</p>
+
+      <div class="application-actions">
+        <button class="btn-outline" data-application-cancel data-application-close type="button">취소</button>
+        <button class="btn-primary" type="submit"><span data-application-submit>신청하기</span></button>
+      </div>
     </div>
 
-    <p class="application-privacy">제출하면 위 정보가 채널톡 대화 입력창에 채워집니다. 메시지는 직접 전송하기 전까지 접수되지 않습니다.</p>
-
-    <div class="application-actions">
-      <button class="btn-outline" data-application-cancel data-application-close type="button">취소</button>
-      <button class="btn-primary" type="submit"><span data-application-submit>신청하기</span></button>
-    </div>
+    <section aria-live="polite" class="application-complete" data-application-complete hidden>
+      <span aria-hidden="true" class="application-complete-mark">✓</span>
+      <p>접수가 완료되었습니다</p>
+      <h3>확인 후 연락드리겠습니다.</h3>
+      <span data-application-complete-email></span>
+      <small>영업일 기준 24시간 이내에 남겨주신 연락처로 안내드릴게요.</small>
+      <button class="btn-primary" data-application-close type="button">확인</button>
+    </section>
   </form>
 </dialog>
 
@@ -191,6 +202,57 @@
     justify-content: flex-end;
     gap: 8px;
     margin-top: 22px;
+  }
+
+  .application-complete {
+    display: grid;
+    justify-items: center;
+    padding: 44px 16px 20px;
+    text-align: center;
+  }
+
+  .application-complete-mark {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    font-size: 28px;
+    font-weight: 900;
+  }
+
+  .application-complete p {
+    margin: 20px 0 6px;
+    color: var(--blue-dark);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .application-complete h3 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 24px;
+    letter-spacing: -0.04em;
+  }
+
+  .application-complete > span:not(.application-complete-mark) {
+    margin-top: 12px;
+    color: var(--body);
+    font-size: 14px;
+    font-weight: 750;
+  }
+
+  .application-complete small {
+    margin: 12px 0 26px;
+    color: var(--sub);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .application-complete .btn-primary {
+    min-width: 150px;
   }
 
   @media (max-width: 560px) {

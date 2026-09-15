@@ -132,11 +132,11 @@ Vercel 쪽에도 같은 이름의 변수를 Production 환경에 넣어두었습
 
 ### 채널톡 도입 상담
 
-히어로와 하단 CTA의 `무료로 도입하기`는 요금제 섹션으로 이동합니다. Starter·Business의 `무료로 시작하기`, Enterprise Cloud·Private / On-premise의 `문의하기`는 사이트 신청폼을 먼저 엽니다. 회사명·담당자명·업무용 이메일·예상 사용자 수를 필수로 받고 연락처는 선택으로 둡니다. 제출하면 입력한 정보가 채널톡 새 대화의 입력란에 미리 채워지며, 방문자가 직접 전송하기 전에는 상담 메시지가 접수되지 않습니다. 무료 플랜에서 워크플로우를 전제로 하지 않고도 상담 시작에 필요한 정보를 확보하는 흐름입니다.
+히어로와 하단 CTA의 `무료로 도입하기`는 요금제 섹션으로 이동합니다. Starter·Business의 `무료로 시작하기`, Enterprise Cloud·Private / On-premise의 `문의하기`는 사이트 신청폼을 먼저 엽니다. 회사명·담당자명·업무용 이메일·예상 사용자 수를 필수로 받고 연락처는 선택으로 둡니다. 제출한 정보는 채널톡 고객 프로필에 저장되고, 완료 화면에서 영업일 기준 24시간 내 연락 안내를 표시합니다. 메신저는 열리지 않습니다.
 
-하단 CTA의 `문의하기`는 신청폼을 거치지 않고 채널톡을 바로 엽니다. 도입 문의 문구만 입력란에 미리 채우며, 역시 사용자가 보내기 전에는 접수되지 않습니다.
+하단 CTA의 문의 아이콘은 신청폼을 거치지 않고 빈 채널톡 채팅창을 바로 엽니다.
 
-사이트는 상담 페이지를 `baton-pricing`으로 설정하고 `planName`, `requestType`, `listedPrice`를 함께 전달합니다. `requestType`은 무료 도입일 때 `trial`, 맞춤 견적일 때 `inquiry`입니다. 클릭이 아니라 신청폼 제출 시 `FreeTrialStart` 또는 `PricingInquiryStart` 이벤트가 기록됩니다.
+사이트는 상담 페이지를 `baton-pricing`으로 설정하고 `planName`, `requestType`, `listedPrice`를 함께 전달합니다. `requestType`은 무료 도입일 때 `trial`, 맞춤 견적일 때 `inquiry`입니다. 신청폼 제출 시 고객 프로필과 `FreeTrialSubmitted` 또는 `PricingInquirySubmitted` 이벤트가 기록됩니다.
 
 채널톡 데스크에서는 워크플로우 없이도 다음 기본 설정으로 운영할 수 있습니다.
 

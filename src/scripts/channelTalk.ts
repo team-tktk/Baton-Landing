@@ -16,24 +16,7 @@ interface PurchaseRequest {
   teamSize: string
 }
 
-function messageFor(request: PurchaseRequest): string {
-  const intro = request.requestType === 'inquiry'
-    ? `안녕하세요. BATON ${request.plan} 도입을 문의드립니다.`
-    : `안녕하세요. BATON ${request.plan} 무료 도입을 신청합니다.`
-
-  return [
-    intro,
-    '',
-    `회사명: ${request.company}`,
-    `담당자: ${request.name}`,
-    `업무용 이메일: ${request.email}`,
-    `연락처: ${request.phone || '미입력'}`,
-    `예상 사용자 수: ${request.teamSize}`,
-    `표시 요금: ${request.price}`,
-  ].join('\n')
-}
-
-/** 신청폼에서 확인한 정보를 채널톡 새 상담의 입력란에 미리 채웁니다. */
+/** 신청 정보는 채널톡 고객 프로필에 저장하고, 메신저를 열지 않습니다. */
 export function initChannelTalk(): void {
   const form = document.querySelector<HTMLFormElement>('[data-application-form]')
   const dialog = document.querySelector<HTMLDialogElement>('[data-application-dialog]')
@@ -50,6 +33,9 @@ export function initChannelTalk(): void {
   const selectedPlan = dialog.querySelector<HTMLElement>('[data-application-plan]')
   const submit = dialog.querySelector<HTMLButtonElement>('[data-application-submit]')
   const closeButtons = dialog.querySelectorAll<HTMLButtonElement>('[data-application-close]')
+  const formContent = dialog.querySelector<HTMLElement>('[data-application-content]')
+  const complete = dialog.querySelector<HTMLElement>('[data-application-complete]')
+  const completeEmail = dialog.querySelector<HTMLElement>('[data-application-complete-email]')
 
   let current = {
     plan: '무료 도입',
@@ -60,17 +46,37 @@ export function initChannelTalk(): void {
   let bootFailed = false
   let pendingAction: (() => void) | null = null
 
-  function openChat(request: PurchaseRequest): void {
+  function saveApplication(request: PurchaseRequest): void {
     ChannelService.setPage('baton-pricing', {
       planName: request.plan,
       requestType: request.requestType,
       listedPrice: request.price,
     })
-    ChannelService.track(request.requestType === 'inquiry' ? 'PricingInquiryStart' : 'FreeTrialStart', {
-      plan: request.plan,
-      price: request.price,
+    ChannelService.updateUser({
+      profile: {
+        name: request.name,
+        email: request.email,
+        mobileNumber: request.phone || null,
+        company: request.company,
+        expectedUsers: request.teamSize,
+        requestedPlan: request.plan,
+        requestType: request.requestType,
+        requestedPrice: request.price,
+      },
+    }, (error) => {
+      if (error) {
+        console.error('채널톡 신청 정보 저장에 실패했습니다.', error)
+        showToast('접수하지 못했습니다. 잠시 후 다시 시도해 주세요.')
+        return
+      }
+
+      ChannelService.addTags(['도입신청'], () => undefined)
+      ChannelService.track(request.requestType === 'inquiry' ? 'PricingInquirySubmitted' : 'FreeTrialSubmitted', {
+        plan: request.plan,
+        price: request.price,
+      })
+      showComplete(request.email)
     })
-    ChannelService.openChat(undefined, messageFor(request))
   }
 
   function openDirectInquiry(): void {
@@ -79,7 +85,7 @@ export function initChannelTalk(): void {
       entryPoint: 'sticky-cta',
     })
     ChannelService.track('PricingInquiryStart', { source: 'sticky-cta' })
-    ChannelService.openChat(undefined, '안녕하세요. BATON 도입을 문의드립니다. 요금제와 도입 절차를 안내해 주세요.')
+    ChannelService.openChat()
   }
 
   function setCtaBarChatOpen(isOpen: boolean): void {
@@ -107,12 +113,14 @@ export function initChannelTalk(): void {
   function openForm(plan: string, price: string, requestType: RequestType): void {
     current = { plan, price, requestType }
     form!.reset()
+    formContent?.removeAttribute('hidden')
+    complete?.setAttribute('hidden', '')
 
     if (title) title.textContent = requestType === 'inquiry' ? 'BATON 도입을 문의해 보세요' : 'BATON을 무료로 시작해 보세요'
     if (eyebrow) eyebrow.textContent = requestType === 'inquiry' ? '도입 문의' : '무료 도입 신청'
     if (intro) intro.textContent = requestType === 'inquiry'
       ? '필요한 정보를 남겨주시면 담당자가 맞춤 견적과 도입 절차를 안내합니다.'
-      : '필요한 정보를 먼저 확인한 뒤, 채널톡에서 도입 상담을 이어갑니다.'
+      : '필요한 정보를 남겨주시면 담당자가 확인한 뒤 이메일로 안내드립니다.'
     if (selectedPlan) selectedPlan.textContent = `${plan} · ${price}`
     if (submit) submit.textContent = requestType === 'inquiry' ? '문의하기' : '신청하기'
 
@@ -129,6 +137,12 @@ export function initChannelTalk(): void {
     } else {
       dialog!.removeAttribute('open')
     }
+  }
+
+  function showComplete(email: string): void {
+    formContent?.setAttribute('hidden', '')
+    complete?.removeAttribute('hidden')
+    if (completeEmail) completeEmail.textContent = email
   }
 
   if (pluginKey) {
@@ -198,7 +212,6 @@ export function initChannelTalk(): void {
       teamSize: String(values.get('teamSize') ?? '').trim(),
     }
 
-    closeForm()
-    startChat(() => openChat(request))
+    startChat(() => saveApplication(request))
   })
 }
