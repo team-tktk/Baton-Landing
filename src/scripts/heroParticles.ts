@@ -265,7 +265,9 @@ export function initHeroParticles(): void {
     const rawProgress = Math.max(0, -hero.getBoundingClientRect().top / animationTravel)
     targetScrollProgress = Math.min(2.1, rawProgress)
 
-    const hideNav = targetScrollProgress < 1.18
+    // Keep the hero focused on its message and product motion. Reveal navigation
+    // only as the sticky hero is about to hand off to the next section.
+    const hideNav = targetScrollProgress < 1.27
     nav?.classList.toggle('hero-hidden', hideNav)
     nav?.toggleAttribute('inert', hideNav)
 

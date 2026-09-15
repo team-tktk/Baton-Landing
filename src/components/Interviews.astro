@@ -71,8 +71,8 @@ import { quotes } from '@/data/content'
   .voice-meta p span { border-left: 1px solid rgb(255 255 255 / 22%); padding-left: 11px; }
   .voice-meta em { border: 1px solid rgb(110 168 255 / 32%); border-radius: 999px; background: rgb(49 130 246 / 15%); color: var(--blue-pale); padding: 7px 11px; font-size: 11px; font-style: normal; }
 
-  .voice-arrow { position: absolute; z-index: 4; top: 50%; display: grid; width: 54px; height: 54px; place-items: center; border: 1px solid rgb(255 255 255 / 18%); border-radius: 50%; background: rgb(10 16 28 / 48%); color: white; font-size: 24px; cursor: pointer; backdrop-filter: blur(10px); transform: translateY(-50%); transition: background 0.25s, transform 0.25s; }
-  .voice-arrow:hover { background: rgb(49 130 246 / 84%); transform: translateY(-50%) scale(1.08); }
+  .voice-arrow { position: absolute; z-index: 4; top: 50%; display: grid; width: 54px; height: 54px; place-items: center; border: 1px solid rgb(255 255 255 / 18%); border-radius: 50%; background: rgb(10 16 28 / 48%); color: white; font-size: 24px; cursor: pointer; backdrop-filter: blur(10px); transform: translateY(-50%); transition: background 0.18s, transform 0.18s var(--ease-out); }
+  .voice-arrow:hover { background: rgb(49 130 246 / 84%); transform: translateY(calc(-50% - 1px)); }
   .voice-arrow.prev { left: 18px; }
   .voice-arrow.next { right: 18px; }
   .voice-footer { position: absolute; z-index: 4; right: clamp(30px, 5vw, 64px); bottom: 28px; left: clamp(54px, 8vw, 104px); display: flex; align-items: center; justify-content: space-between; gap: 28px; }

@@ -43,13 +43,6 @@ import { features } from '@/data/content'
     background: var(--surface);
     padding: 28px 24px;
     box-shadow: var(--shadow-card);
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s, border-color 0.3s;
-  }
-
-  .features li:hover {
-    border-color: rgb(49 130 246 / 38%);
-    transform: translateY(-6px);
-    box-shadow: 0 24px 50px rgb(49 130 246 / 14%);
   }
 
   .feature-icon {
@@ -61,18 +54,11 @@ import { features } from '@/data/content'
     border-radius: 16px;
     background: var(--blue-soft);
     color: var(--blue-dark);
-    transition: transform 0.4s var(--ease-out), background 0.3s, color 0.3s;
   }
 
   .feature-icon :global(svg) {
     width: 24px;
     height: 24px;
-  }
-
-  .features li:hover .feature-icon {
-    background: var(--blue);
-    color: var(--on-dark);
-    transform: scale(1.12);
   }
 
   .features small {

@@ -15,11 +15,10 @@ import { links, site } from '@/data/site'
 
   <nav aria-label="섹션" class="nav-links">
     {navLinks.map((link) => <a data-nav-link href={link.href}>{link.label}</a>)}
-    <span aria-hidden="true" class="nav-indicator" data-nav-indicator></span>
   </nav>
 
   <div class="nav-actions">
-    <a class="btn-dark" href={links.github} rel="noreferrer" target="_blank">문의하기</a>
+    <a class="btn-dark" href={links.app} rel="noreferrer" target="_blank">BATON 열기</a>
 
     <button
       aria-controls="nav-menu"
@@ -49,8 +48,8 @@ import { links, site } from '@/data/site'
   }
 
   <div class="nav-menu-cta">
-    <a class="btn-primary" href={links.github} rel="noreferrer" target="_blank">
-      문의하기
+    <a class="btn-dark" href={links.app} rel="noreferrer" target="_blank">
+      BATON 열기
       <Icon name="arrow" />
     </a>
   </div>
@@ -60,21 +59,22 @@ import { links, site } from '@/data/site'
   .nav {
     position: fixed;
     z-index: 30;
-    top: 14px;
-    left: 50%;
+    top: 0;
+    left: 0;
     display: grid;
-    width: min(1120px, calc(100% - 32px));
-    height: 62px;
+    width: 100%;
+    height: 64px;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 24px;
-    transform: translateX(-50%);
-    border: 1px solid rgb(255 255 255 / 68%);
-    border-radius: 999px;
-    background: rgb(255 255 255 / 68%);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    padding: 0 12px 0 14px;
+    transform: none;
+    border: 0;
+    border-bottom: 1px solid rgb(255 255 255 / 76%);
+    border-radius: 0;
+    background: rgb(255 255 255 / 58%);
+    backdrop-filter: blur(24px) saturate(1.25);
+    -webkit-backdrop-filter: blur(24px) saturate(1.25);
+    padding: 0 max(18px, calc((100vw - 1180px) / 2));
     box-shadow: 0 10px 30px rgb(23 32 51 / 8%);
     transition:
       opacity 0.55s var(--ease-out),
@@ -86,15 +86,15 @@ import { links, site } from '@/data/site'
 
   .nav.hero-hidden {
     opacity: 0;
-    transform: translate(-50%, -130%);
+    transform: translateY(-130%);
     pointer-events: none;
   }
 
   /* 스크롤하면 배경을 씌워 본문과 분리합니다. */
   .nav.scrolled {
-    border-color: rgb(25 31 40 / 7%);
-    background: rgb(255 255 255 / 92%);
-    box-shadow: 0 12px 34px rgb(23 32 51 / 11%);
+    border-color: rgb(255 255 255 / 72%);
+    background: rgb(255 255 255 / 72%);
+    box-shadow: 0 12px 34px rgb(23 32 51 / 10%);
   }
 
   .brand {
@@ -109,20 +109,18 @@ import { links, site } from '@/data/site'
     width: 40px;
     height: 40px;
     place-items: center;
-    border: 1px solid rgb(49 130 246 / 11%);
-    border-radius: 50%;
-    background: linear-gradient(145deg, var(--surface), var(--blue-2));
-    box-shadow: 0 10px 24px rgb(49 130 246 / 12%);
-    transition: transform 0.3s var(--ease-out);
+    border: 0;
+    background: transparent;
+    transition: transform 0.18s var(--ease-out);
   }
 
   .brand:hover .brand-mark {
-    transform: scale(1.12);
+    transform: scale(1.04);
   }
 
   .brand-mark img {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
     object-fit: contain;
   }
 
@@ -158,29 +156,12 @@ import { links, site } from '@/data/site'
     font-size: 14px;
     font-weight: 700;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.18s;
   }
 
   .nav-links a:hover,
   .nav-links a.active {
     color: var(--blue-dark);
-  }
-
-  /* 현재 섹션 링크를 따라 미끄러지는 알약 */
-  .nav-indicator {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    border-radius: 10px;
-    background: var(--blue-faint);
-    opacity: 0;
-    transition: transform 0.35s var(--ease-out), width 0.35s var(--ease-out), opacity 0.2s;
-  }
-
-  .nav-indicator.on {
-    opacity: 1;
   }
 
   .nav-actions {
@@ -203,22 +184,22 @@ import { links, site } from '@/data/site'
   .nav-toggle {
     position: relative;
     display: none;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgb(25 31 40 / 10%);
-    border-radius: 12px;
-    background: var(--surface);
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
     cursor: pointer;
     padding: 0;
-    color: var(--body);
-    transition: background 0.18s, border-color 0.18s;
+    color: var(--blue-dark);
+    transition: background 0.18s, color 0.18s, transform 0.18s var(--ease-out);
   }
 
   .nav-toggle:hover {
-    border-color: rgb(49 130 246 / 40%);
-    background: var(--blue-1);
+    background: var(--blue-2);
+    transform: translateY(-1px);
   }
 
   .nav-toggle :global(svg) {
@@ -240,6 +221,11 @@ import { links, site } from '@/data/site'
     transform: none;
   }
 
+  .nav-toggle[aria-expanded='true'] {
+    background: var(--blue-2);
+    color: var(--blue-dark);
+  }
+
   .nav-scrim {
     position: fixed;
     z-index: 28;
@@ -259,20 +245,23 @@ import { links, site } from '@/data/site'
   .nav-menu {
     position: fixed;
     z-index: 29;
-    top: calc(var(--nav-h) + 8px);
+    top: var(--nav-h);
     right: 0;
     left: 0;
     display: none;
     max-height: calc(100dvh - var(--nav-h));
     flex-direction: column;
     overflow-y: auto;
-    border-bottom: 1px solid var(--line);
-    border-radius: 0 0 20px 20px;
-    background: var(--surface);
-    padding: 10px max(6vw, 32px) 20px;
+    border: 0;
+    border-bottom: 1px solid rgb(23 32 51 / 9%);
+    border-radius: 0 0 24px 24px;
+    background: rgb(255 255 255 / 94%);
+    padding: 10px max(6vw, 32px) 22px;
     opacity: 0;
     transform: translateY(-12px);
-    box-shadow: 0 20px 40px rgb(23 32 51 / 12%);
+    box-shadow: 0 22px 44px rgb(23 32 51 / 14%);
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
     pointer-events: none;
     transition: opacity 0.25s, transform 0.3s var(--ease-out);
   }
@@ -290,9 +279,9 @@ import { links, site } from '@/data/site'
     gap: 12px;
     border-bottom: 1px solid var(--line);
     color: var(--body);
-    padding: 17px 4px;
-    font-size: 16px;
-    font-weight: 700;
+    padding: 18px 4px;
+    font-size: 17px;
+    font-weight: 750;
     text-decoration: none;
     transition: color 0.18s;
   }
@@ -305,7 +294,7 @@ import { links, site } from '@/data/site'
     width: 18px;
     height: 18px;
     color: var(--muted);
-    transition: transform 0.2s var(--ease-out), color 0.18s;
+    transition: transform 0.18s var(--ease-out), color 0.18s;
   }
 
   .nav-menu > a:hover,
@@ -320,12 +309,21 @@ import { links, site } from '@/data/site'
   }
 
   .nav-menu-cta {
-    padding-top: 14px;
+    padding-top: 18px;
   }
 
-  .nav-menu-cta .btn-primary {
+  .nav-menu-cta .btn-dark {
     width: 100%;
     height: 50px;
+    justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 12px 26px rgb(23 32 51 / 18%);
+  }
+
+  .nav-menu-cta .btn-dark :global(svg) {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
   }
 
   /* 메뉴가 열린 동안 뒤 본문이 스크롤되지 않게 합니다.
@@ -354,14 +352,26 @@ import { links, site } from '@/data/site'
     .nav-menu {
       display: flex;
     }
+
+    /* 열린 메뉴는 헤더와 틈 없이 이어지는 하나의 시트로 보이게 합니다. */
+    .nav.menu-open {
+      border-bottom-color: transparent;
+      background: rgb(255 255 255 / 94%);
+      box-shadow: none;
+    }
+
+    .nav.menu-open .nav-actions > .btn-dark {
+      display: none;
+    }
   }
 
   @media (max-width: 560px) {
     .nav {
-      top: 10px;
-      width: calc(100% - 20px);
-      height: 54px;
-      padding: 0 8px 0 10px;
+      top: 0;
+      width: 100%;
+      height: var(--nav-h);
+      padding: 0 12px;
+      border-radius: 0;
     }
 
     .brand-text {
@@ -372,6 +382,11 @@ import { links, site } from '@/data/site'
     .nav-actions .btn-dark {
       height: 40px;
       padding: 0 13px;
+    }
+
+    .nav-menu {
+      padding-right: 24px;
+      padding-left: 24px;
     }
   }
 </style>
