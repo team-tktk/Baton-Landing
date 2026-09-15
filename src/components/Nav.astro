@@ -111,11 +111,11 @@ import { links, site } from '@/data/site'
     place-items: center;
     border: 0;
     background: transparent;
-    transition: transform 0.3s var(--ease-out);
+    transition: transform 0.18s var(--ease-out);
   }
 
   .brand:hover .brand-mark {
-    transform: scale(1.12);
+    transform: scale(1.04);
   }
 
   .brand-mark img {
@@ -156,7 +156,7 @@ import { links, site } from '@/data/site'
     font-size: 14px;
     font-weight: 700;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.18s;
   }
 
   .nav-links a:hover,
@@ -194,11 +194,12 @@ import { links, site } from '@/data/site'
     cursor: pointer;
     padding: 0;
     color: var(--blue-dark);
-    transition: background 0.18s, color 0.18s;
+    transition: background 0.18s, color 0.18s, transform 0.18s var(--ease-out);
   }
 
   .nav-toggle:hover {
     background: var(--blue-2);
+    transform: translateY(-1px);
   }
 
   .nav-toggle :global(svg) {
@@ -293,7 +294,7 @@ import { links, site } from '@/data/site'
     width: 18px;
     height: 18px;
     color: var(--muted);
-    transition: transform 0.2s var(--ease-out), color 0.18s;
+    transition: transform 0.18s var(--ease-out), color 0.18s;
   }
 
   .nav-menu > a:hover,

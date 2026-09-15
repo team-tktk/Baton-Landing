@@ -44,11 +44,9 @@ import { stats } from '@/data/content'
     min-height: 290px;
     border-left: 1px solid var(--line);
     padding: 32px;
-    transition: background 0.3s, transform 0.3s var(--ease-out);
   }
 
   .evidence-item:first-child { border-left: 0; }
-  .evidence-item:hover { background: var(--blue-1); }
 
   .evidence-topline {
     display: flex;
@@ -88,6 +86,8 @@ import { stats } from '@/data/content'
     line-height: 1.5;
     text-decoration: none;
   }
+
+  .evidence-item a { transition: color 0.18s; }
 
   .evidence-item a:hover { color: var(--blue-dark); text-decoration: underline; }
 

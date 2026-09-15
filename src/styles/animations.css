@@ -132,13 +132,6 @@
   }
 }
 
-@keyframes breathe {
-  to {
-    transform: scale(1.04);
-    box-shadow: 0 22px 48px rgb(49 130 246 / 34%);
-  }
-}
-
 /*
  * 모션 최소화 설정을 켠 사용자에게는 모든 연출을 끕니다.
  * scoped 스타일보다 우선해야 하므로 !important가 필요합니다.
