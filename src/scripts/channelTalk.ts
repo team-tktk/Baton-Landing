@@ -145,6 +145,8 @@ export function initChannelTalk(): void {
   function showComplete(request: PurchaseRequest): void {
     formContent?.setAttribute('hidden', '')
     complete?.removeAttribute('hidden')
+    if (eyebrow) eyebrow.textContent = request.requestType === 'inquiry' ? '문의 접수' : '신청 접수'
+    if (title) title.textContent = '접수가 완료되었습니다'
     if (completeEmail) completeEmail.textContent = request.email
     if (completePhoneValue) completePhoneValue.textContent = request.phone
     completePhone?.toggleAttribute('hidden', !request.phone)

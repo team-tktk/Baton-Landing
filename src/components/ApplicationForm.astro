@@ -53,7 +53,7 @@
 
     <section aria-live="polite" class="application-complete" data-application-complete hidden>
       <span aria-hidden="true" class="application-complete-mark">✓</span>
-      <p>접수가 완료되었습니다</p>
+      <p>감사합니다</p>
       <h3>확인 후 연락드리겠습니다.</h3>
       <dl class="application-contact-summary">
         <div>
@@ -89,6 +89,10 @@
 
   .application-form {
     padding: 28px;
+  }
+
+  .application-form [hidden] {
+    display: none !important;
   }
 
   .application-head {
@@ -257,12 +261,12 @@
     margin: 18px 0 0;
   }
 
-  .application-contact-summary div {
-    display: flex;
+  .application-contact-summary > div {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr);
     min-width: 0;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    gap: 10px;
     border-radius: 10px;
     background: var(--blue-soft);
     padding: 10px 12px;
@@ -277,13 +281,12 @@
   }
 
   .application-contact-summary dd {
-    overflow: hidden;
+    min-width: 0;
     margin: 0;
     color: var(--body);
     font-size: 13px;
     font-weight: 800;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
   }
 
   .application-complete small {
