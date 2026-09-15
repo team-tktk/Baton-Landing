@@ -122,12 +122,32 @@ Variables
 | --- | --- |
 | `AWS_REGION` | 버킷이 있는 리전 |
 | `SITE_URL` | 운영 도메인. 예: `https://baton.co.kr` |
+| `CHANNEL_TALK_PLUGIN_KEY` | 채널톡 데스크에서 발급한 웹 플러그인 키. 신청폼 이후 상담 연결에 사용 |
 
 Vercel 쪽에도 같은 이름의 변수를 Production 환경에 넣어두었습니다. 값은 Vercel이 할당한 `https://baton-landing-rho.vercel.app`입니다. 변수가 없으면 `astro.config.mjs`의 폴백이 같은 주소를 쓰므로 이중 안전장치입니다.
 
 `SITE_URL`은 `astro.config.mjs`의 `site`로 들어가 canonical URL과 OG 이미지 주소를 만듭니다. 값이 없으면 Vercel 주소로 빌드되므로, 워크플로가 빌드 직후 canonical이 운영 도메인인지 확인하고 아니면 실패시킵니다.
 
 `src/data/site.ts`의 `links.app`은 서비스 앱 주소라 배포와 별개입니다. 앱 도메인이 바뀌면 여기도 같이 고쳐주세요.
+
+### 채널톡 도입 상담
+
+히어로와 하단 CTA의 `무료로 도입하기`는 요금제 섹션으로 이동합니다. Starter·Business의 `무료로 시작하기`, Enterprise Cloud·Private / On-premise의 `문의하기`는 사이트 신청폼을 먼저 엽니다. 회사명·담당자명·업무용 이메일·예상 사용자 수를 필수로 받고 연락처는 선택으로 둡니다. 제출한 정보는 채널톡 고객 프로필에 저장되고, 완료 화면에서 영업일 기준 24시간 내 연락 안내를 표시합니다. 메신저는 열리지 않습니다.
+
+하단 CTA의 문의 아이콘은 신청폼을 거치지 않고 빈 채널톡 채팅창을 바로 엽니다.
+
+사이트는 상담 페이지를 `baton-pricing`으로 설정하고 `planName`, `requestType`, `listedPrice`를 함께 전달합니다. `requestType`은 무료 도입일 때 `trial`, 맞춤 견적일 때 `inquiry`입니다. 신청폼 제출 시 고객 프로필과 `FreeTrialSubmitted` 또는 `PricingInquirySubmitted` 이벤트가 기록됩니다.
+
+채널톡 데스크에서는 워크플로우 없이도 다음 기본 설정으로 운영할 수 있습니다.
+
+1. `설정 → 상담 → 태그`에서 `무료 도입`, `가격 문의`, `Starter`, `Business`, `Enterprise` 태그를 만듭니다.
+2. `설정 → 상담 → 팀`에서 영업/도입 상담 담당팀을 정하고, 새 상담 알림을 해당 팀에 연결합니다.
+3. 상담 프로필의 `requestType`, `planName`, `listedPrice`와 첫 메시지의 회사·담당자·사용자 수를 기준으로 태그와 담당자를 지정합니다.
+4. 반복 답변은 개인/팀 매크로로 등록해 견적, 계약, 결제 절차를 빠르게 안내합니다. 필요해진 뒤에만 `고객 → 서포트 → 워크플로우`에서 조건 분기나 자동 응답을 추가하면 됩니다.
+
+공식 도움말: [채널톡 웹 SDK](https://developers.channel.io/en/articles/ChannelIO-0b119290), [태그 관리](https://docs.channel.io/help/ko/articles/5a5314d8), [워크플로우 만들기](https://docs.channel.io/help/ko/articles/a497fa44-%EC%9B%8C%ED%81%B4%EB%A1%9C%EC%9A%B0-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0)
+
+로컬에서는 `.env`에 `PUBLIC_CHANNEL_TALK_PLUGIN_KEY=플러그인키`를 넣고 개발 서버를 다시 시작하세요. 운영 배포는 위 GitHub Actions Variable `CHANNEL_TALK_PLUGIN_KEY`를 빌드할 때 읽습니다. Vercel 개발 배포에도 `PUBLIC_CHANNEL_TALK_PLUGIN_KEY`를 환경 변수로 등록해야 동일하게 동작합니다. 플러그인 키가 없으면 채널톡 SDK를 부트하지 않고 버튼에 준비 중 안내가 표시됩니다.
 
 ## 남은 과제
 

@@ -15,10 +15,10 @@ import { pilotDeadline } from '@/data/site'
     <small>파일럿 모집 마감까지 <span class="countdown" data-countdown>--일 --시간 --분 --초</span></small>
   </div>
 
-  <a class="btn-dark cta-btn" href="#pricing">바톤 도입하기</a>
+  <a class="btn-dark cta-btn" href="#pricing">무료로 도입하기</a>
 
-  <button aria-label="링크 복사" class="share" data-share type="button">
-    <Icon name="link" />
+  <button aria-label="채널톡으로 문의하기" class="btn-ghost cta-btn cta-inquiry" data-channel-direct type="button">
+    <Icon name="support" />
   </button>
 </div>
 
@@ -48,6 +48,12 @@ import { pilotDeadline } from '@/data/site'
   .cta-bar.show {
     opacity: 1;
     transform: translate(-50%, 0);
+  }
+
+  .cta-bar.channel-open {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 140%);
   }
 
   .cta-copy {
@@ -84,29 +90,23 @@ import { pilotDeadline } from '@/data/site'
     padding: 0 26px;
   }
 
-  .share {
-    display: grid;
+  .cta-inquiry {
     width: 48px;
-    height: 48px;
-    flex: none;
-    place-items: center;
     border: 1px solid var(--line);
-    border-radius: 12px;
     background: var(--surface);
-    color: var(--sub);
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s, transform 0.2s;
-  }
-
-  .share:hover {
-    border-color: rgb(49 130 246 / 38%);
     color: var(--blue-dark);
-    transform: rotate(-12deg);
+    padding: 0;
   }
 
-  .share :global(svg) {
-    width: 18px;
-    height: 18px;
+  .cta-inquiry:hover {
+    border-color: var(--blue-7);
+    background: var(--blue-2);
+    transform: translateY(-1px);
+  }
+
+  .cta-inquiry :global(svg) {
+    width: 19px;
+    height: 19px;
   }
 
   @media (max-width: 560px) {
@@ -124,13 +124,15 @@ import { pilotDeadline } from '@/data/site'
     .cta-btn {
       padding: 0 16px;
     }
+
+    .cta-inquiry {
+      padding: 0;
+    }
   }
 </style>
 
 <script>
   import { initCtaBar } from '@/scripts/ctaBar'
-  import { initShare } from '@/scripts/share'
 
   initCtaBar()
-  initShare()
 </script>

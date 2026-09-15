@@ -1,6 +1,7 @@
 /* 여러 컴포넌트가 함께 쓰는 클래스. 컴포넌트 고유 스타일은 각 .astro 파일에 있습니다. */
 
 /* ===== 버튼 ===== */
+/* 버튼은 180ms 색 전환과 1px 상승, 화살표 아이콘은 3px 전진을 기본 규칙으로 둡니다. */
 .btn-primary,
 .btn-dark,
 .btn-outline,
@@ -24,40 +25,26 @@
 }
 
 .btn-primary {
-  position: relative;
-  overflow: hidden;
   background: var(--blue);
   color: var(--on-dark);
   box-shadow: 0 10px 24px rgb(49 130 246 / 24%);
 }
 
-/* 호버 시 지나가는 광택 */
-.btn-primary::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 28%) 50%, transparent 70%);
-  transform: translateX(-120%);
-  transition: transform 0.6s var(--ease-out);
-}
-
 .btn-primary:hover {
   background: var(--blue-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 16px 34px rgb(49 130 246 / 32%);
+  transform: translateY(-1px);
+  box-shadow: 0 13px 28px rgb(49 130 246 / 28%);
 }
 
-.btn-primary:hover::after {
-  transform: translateX(120%);
-}
-
-.btn-primary svg {
+.btn-primary svg,
+.btn-dark svg {
   width: 18px;
   height: 18px;
-  transition: transform 0.2s var(--ease-out);
+  transition: transform 0.18s var(--ease-out);
 }
 
-.btn-primary:hover svg {
+.btn-primary:hover svg,
+.btn-dark:hover svg {
   transform: translateX(3px);
 }
 
@@ -81,7 +68,7 @@
 .btn-outline:hover {
   border-color: rgb(49 130 246 / 40%);
   color: var(--blue-dark);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .btn-outline svg {
@@ -109,6 +96,7 @@
 .btn-ghost:hover {
   background: var(--blue-faint);
   color: var(--blue-dark);
+  transform: translateY(-1px);
 }
 
 .btn-link {
@@ -125,10 +113,6 @@
   border-radius: 16px;
   padding: 0 28px;
   font-size: 16px;
-}
-
-.breathe {
-  animation: breathe 2.4s ease-in-out infinite alternate;
 }
 
 /* ===== 섹션 껍데기 ===== */

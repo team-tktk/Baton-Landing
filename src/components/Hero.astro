@@ -25,7 +25,7 @@ import { links, site } from '@/data/site'
 
       <div class="hero-actions">
         <a class="btn-dark btn-lg" href="#pricing">
-          바톤 도입하기
+          무료로 도입하기
           <Icon name="arrow" />
         </a>
         <a class="btn-glass btn-lg" href={links.app} rel="noreferrer" target="_blank">
@@ -168,14 +168,6 @@ import { links, site } from '@/data/site'
     height: 17px;
   }
 
-  .hero-actions .btn-dark :global(svg) {
-    transition: transform 0.2s var(--ease-out);
-  }
-
-  .hero-actions .btn-dark:hover :global(svg) {
-    transform: translateX(3px);
-  }
-
   .btn-glass {
     display: inline-flex;
     align-items: center;
@@ -189,7 +181,8 @@ import { links, site } from '@/data/site'
     font-size: 15px;
     font-weight: 700;
     text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.18s, border-color 0.18s, color 0.18s,
+      transform 0.18s var(--ease-out);
   }
 
   .hero-actions .btn-glass {
@@ -200,12 +193,17 @@ import { links, site } from '@/data/site'
     border-color: rgb(49 130 246 / 52%);
     background: rgb(255 255 255 / 82%);
     color: var(--blue-dark);
-    transform: none;
+    transform: translateY(-1px);
   }
 
   .btn-glass :global(svg) {
     fill: none;
     stroke: currentColor;
+    transition: transform 0.18s var(--ease-out);
+  }
+
+  .btn-glass:hover :global(svg) {
+    transform: translateX(3px);
   }
 
   .scroll-next {
@@ -223,12 +221,14 @@ import { links, site } from '@/data/site'
     background: rgb(255 255 255 / 48%);
     backdrop-filter: blur(8px);
     color: var(--navy);
-    transition: opacity 0.3s, border-color 0.2s, background 0.2s;
+    transition: opacity 0.3s, border-color 0.18s, background 0.18s,
+      transform 0.18s var(--ease-out);
   }
 
   .scroll-next:hover {
     border-color: rgb(49 130 246 / 55%);
     background: rgb(255 255 255 / 82%);
+    transform: translate(-50%, -1px);
   }
 
   .scroll-next :global(svg) {

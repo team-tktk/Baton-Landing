@@ -1,7 +1,6 @@
 ---
 import Section from '@/components/Section.astro'
 import { plans } from '@/data/content'
-import { links } from '@/data/site'
 ---
 
 <Section id="pricing" index="05. 요금제" kicker="팀 규모에 맞게 시작하세요">
@@ -21,18 +20,22 @@ import { links } from '@/data/site'
             {plan.items.map((item) => <li>{item}</li>)}
           </ul>
           <small>{plan.extra}</small>
-          <a
-            class={plan.cta === '도입 문의' ? 'btn-soft' : 'btn-primary'}
-            href={plan.cta === '도입 문의' ? links.github : links.app}
-            rel="noreferrer"
-            target="_blank"
+          <button
+            class:list={['plan-purchase', plan.intent === 'inquiry' ? 'btn-dark' : 'btn-primary']}
+            data-channel-purchase
+            data-channel-intent={plan.intent ?? 'trial'}
+            data-plan={plan.name}
+            data-plan-price={plan.price}
+            aria-label={`${plan.name} ${plan.intent === 'inquiry' ? '문의하기' : '무료로 시작하기'}`}
+            type="button"
           >
-            {plan.cta}
-          </a>
+            {plan.intent === 'inquiry' ? '문의하기' : '무료로 시작하기'}
+          </button>
         </li>
       ))
     }
   </ul>
+  <p class="purchase-note">요금제 버튼을 누르면 신청폼을 작성합니다. 접수 내용을 확인한 뒤 담당자가 연락드립니다.</p>
 </Section>
 
 <style>
@@ -53,12 +56,6 @@ import { links } from '@/data/site'
     border-radius: var(--radius-lg);
     background: var(--surface);
     padding: 30px 24px 24px;
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
-  }
-
-  .plan:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 22px 48px rgb(23 32 51 / 10%);
   }
 
   .plan.featured {
@@ -144,6 +141,18 @@ import { links } from '@/data/site'
     margin-bottom: 18px;
     color: var(--muted);
     font-size: 12px;
+  }
+
+  .plan-purchase {
+    width: 100%;
+  }
+
+  .purchase-note {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
   }
 
   @media (max-width: 1000px) {
