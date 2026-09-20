@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write # 릴리즈 잡이 태그를 만드는 데 필요합니다
   id-token: write # OIDC로 AWS 역할을 맡는 데 필요합니다
 
 jobs:
@@ -99,3 +99,40 @@ jobs:
           aws cloudfront wait invalidation-completed \
             --distribution-id "$DISTRIBUTION_ID" --id "$ID"
           echo "완료"
+
+  release:
+    name: 태그와 릴리즈 노트
+    needs: deploy # 배포가 성공해야 태그를 답니다. 태그 = 실제로 나간 것
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 버전 읽기
+        id: version
+        run: echo "value=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: 이미 있는 태그인지 확인
+        id: exists
+        env:
+          TAG: ${{ steps.version.outputs.value }}
+        run: |
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "$TAG 태그가 이미 있습니다. package.json 버전을 올리지 않은 배포로 보고 넘어갑니다."
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 태그와 GitHub 릴리즈 생성
+        if: steps.exists.outputs.found == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.value }}
+        run: |
+          git tag "$TAG"
+          git push origin "$TAG"
+          gh release create "$TAG" --title "$TAG" --generate-notes
+          echo "$TAG 릴리즈를 만들었습니다."
