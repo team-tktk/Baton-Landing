@@ -1,0 +1,9 @@
+---
+import LegalPage from '@/components/LegalPage.astro'
+import { termsOfService } from '@/data/legal'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+---
+
+<BaseLayout description={termsOfService.description} title={`${termsOfService.title} | BATON`}>
+  <LegalPage doc={termsOfService} sibling={{ href: '/privacy', label: '개인정보처리방침 보기' }} />
+</BaseLayout>

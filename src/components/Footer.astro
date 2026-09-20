@@ -16,6 +16,8 @@ const year = new Date().getFullYear()
   <nav aria-label="외부 링크" class="footer-links">
     <a href={links.demo} rel="noreferrer" target="_blank">시연 영상</a>
     <a href={links.app} rel="noreferrer" target="_blank">서비스 바로가기</a>
+    <a href="/terms">이용약관</a>
+    <a class="footer-strong" href="/privacy">개인정보처리방침</a>
   </nav>
 
   <p>© {year} {site.team}. All rights reserved.</p>
@@ -31,6 +33,12 @@ const year = new Date().getFullYear()
     background: var(--surface);
     /* 하단 고정 CTA 바에 가리지 않도록 여백을 넉넉히 둡니다. */
     padding: 36px max(6vw, 32px) 130px;
+  }
+
+  /* 개인정보처리방침은 관례상 다른 링크보다 굵게 표시합니다. */
+  .footer-links .footer-strong {
+    color: var(--body);
+    font-weight: 750;
   }
 
   .footer-brand {

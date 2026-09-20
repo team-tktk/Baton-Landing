@@ -43,7 +43,15 @@
         </label>
       </div>
 
-      <p class="application-privacy">제출한 정보는 도입 상담 확인과 답변을 위해 채널톡 고객 프로필에 저장됩니다.</p>
+      <label class="application-consent">
+        <input name="privacyConsent" required type="checkbox" />
+        <span>
+          <strong>[필수] 개인정보 수집·이용에 동의합니다.</strong>
+          회사명, 담당자명, 이메일, 연락처, 예상 사용자 수를 도입 상담과 회신을 위해 수집하며, 상담 종료 후 1년간 보관한 뒤 파기합니다.
+          접수와 문의 응대는 채널톡에 위탁해 처리합니다. 동의를 거부할 수 있으나, 거부하면 도입 신청을 접수할 수 없습니다.
+          자세한 내용은 <a href="/privacy" target="_blank">개인정보처리방침</a>에서 확인하실 수 있습니다.
+        </span>
+      </label>
 
       <div class="application-actions">
         <button class="btn-outline" data-application-cancel data-application-close type="button">취소</button>
@@ -203,11 +211,46 @@
     grid-column: 1 / -1;
   }
 
-  .application-privacy {
-    margin: 16px 0 0;
-    color: var(--muted);
+  /* 개인정보보호법 제15조에 따라 수집 전에 동의를 받습니다.
+     required라 체크하지 않으면 reportValidity()가 제출을 막습니다. */
+  .application-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 18px 0 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-soft);
+    padding: 14px 16px;
+    cursor: pointer;
+  }
+
+  .application-consent input {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    margin-top: 1px;
+    accent-color: var(--blue);
+    cursor: pointer;
+  }
+
+  .application-consent span {
+    color: var(--sub);
     font-size: 12px;
-    line-height: 1.55;
+    line-height: 1.65;
+  }
+
+  .application-consent strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--body);
+    font-size: 13px;
+    font-weight: 750;
+  }
+
+  .application-consent a {
+    color: var(--blue-dark);
+    font-weight: 700;
   }
 
   .application-actions {
