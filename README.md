@@ -151,4 +151,8 @@ Vercel 쪽에도 같은 이름의 변수를 Production 환경에 넣어두었습
 
 ## 남은 과제
 
-`public/assets/baton-favicon.png`가 596KB, `og.png`가 1.2MB입니다. 파비콘은 32px 정도면 충분하니 줄이는 편이 좋습니다.
+`public/assets/batontouch-icon.png`가 167KB입니다. 내비게이션에서 40px로 그려지는데 원본이 640px라 40배쯤 큽니다.
+
+`public/assets/baton-handover-preview.png`는 450KB인데 `src/` 어디에서도 참조되지 않습니다. 쓰는 곳이 없으면 지워도 됩니다.
+
+이미지를 새로 넣을 때는 화면에 그려지는 크기의 2배 정도로 맞춰주세요. OG 이미지는 1200×675, 파비콘은 128×128을 쓰고 있습니다.
